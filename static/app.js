@@ -1497,7 +1497,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Presenter Slide Sync
-    updatePresentSlide(s, idx);
+    if (typeof renderPresentSlide === 'function') {
+      renderPresentSlide(idx);
+    }
   }
 
   // Compare Toggle Handler (150ms crossfade, zero 3D flip)
