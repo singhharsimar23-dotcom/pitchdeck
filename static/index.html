@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
   
   <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/pptxgenjs@3.12.0/dist/pptxgen.bundle.js"></script>
 </head>
 <body>
   <!-- Accessibility Skip Link -->
@@ -22,6 +23,18 @@
 
   <!-- SVG Icon Library Sprite Definitions (Strictly Vector Geometric, Zero Emojis, Zero Sparkles/Wands) -->
   <svg style="display: none;" aria-hidden="true">
+    <symbol id="icon-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+    </symbol>
+    <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+    </symbol>
+    <symbol id="icon-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
+    </symbol>
+    <symbol id="icon-file-text" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/>
+    </symbol>
     <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
     </symbol>
@@ -719,15 +732,19 @@
       </div>
 
       <div class="studio-toolbar-actions">
-        <!-- View Mode Switcher: Document View (Gamma signature) vs 16:9 Slide View -->
+        <!-- View Mode Switcher: Document View (Gamma signature) vs 16:9 Slide View vs Grid Sorter -->
         <div class="view-mode-toggle-pill" role="tablist">
-          <button type="button" class="mode-pill-btn active" id="btnModeDoc" role="tab" aria-selected="true" title="Continuous Document Canvas">
+          <button type="button" class="mode-pill-btn active" id="btnModeDoc" role="tab" aria-selected="true" title="Continuous Document Canvas (D)">
             <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-layers"/></svg>
             <span>Document</span>
           </button>
-          <button type="button" class="mode-pill-btn" id="btnModeSlide" role="tab" aria-selected="false" title="16:9 Single Slide View">
+          <button type="button" class="mode-pill-btn" id="btnModeSlide" role="tab" aria-selected="false" title="16:9 Single Slide View (S)">
             <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-keynote"/></svg>
             <span>Slides</span>
+          </button>
+          <button type="button" class="mode-pill-btn" id="btnModeGrid" role="tab" aria-selected="false" title="All Slides Sorter Grid (G)">
+            <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-grid"/></svg>
+            <span>Grid</span>
           </button>
         </div>
 
@@ -735,8 +752,8 @@
           <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-keynote"/></svg>
           <span>Present</span>
         </button>
-        <button type="button" class="btn-studio-action" id="btnExportDeckJson" title="Export Deck as JSON">
-          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-layers"/></svg>
+        <button type="button" class="btn-studio-action" id="btnExportDeck" title="Export Presentation Deck (E)">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-download"/></svg>
           <span>Export</span>
         </button>
       </div>
@@ -871,6 +888,26 @@
           <button type="button" class="scrub-nav-btn" id="btnScrubNext" title="Next Slide (→)">
             <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
           </button>
+        </div>
+      </div>
+
+      <!-- Grid Mode View (Slide Sorter Overview) -->
+      <div class="grid-mode-viewport hidden" id="gridModeViewport">
+        <div class="grid-mode-header">
+          <div class="grid-mode-meta">
+            <span class="grid-mode-kicker">SLIDE SORTER & OVERVIEW</span>
+            <h3 class="grid-mode-heading">Deck Slide Grid</h3>
+          </div>
+          <div class="grid-mode-actions">
+            <span class="grid-mode-count" id="gridModeCount">10 CARDS</span>
+            <button type="button" class="btn-studio-action" id="btnGridPresent" title="Fullscreen Presentation Mode">
+              <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-keynote"/></svg>
+              <span>Present</span>
+            </button>
+          </div>
+        </div>
+        <div class="grid-cards-container" id="gridCardsContainer">
+          <!-- Rendered dynamically by app.js -->
         </div>
       </div>
     </div>
@@ -1345,6 +1382,86 @@
     </div>
     <div class="present-thumbnail-strip" id="presentThumbnailStrip">
       <!-- Slide thumbnails -->
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       EXPORT MODAL — Full Presentation Export Suite
+       =================================================================== -->
+  <div id="exportModal" class="palette-backdrop hidden" role="dialog" aria-modal="true" aria-label="Export Presentation Deck">
+    <div class="export-modal-card">
+      <div class="export-modal-header">
+        <div class="export-header-title-group">
+          <div class="export-kicker">DECK EXPORT SUITE</div>
+          <h3 class="export-title">Export Pitch Deck</h3>
+        </div>
+        <button type="button" class="btn-history-close" id="btnExportModalClose" title="Close (Esc)">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-x"/></svg>
+        </button>
+      </div>
+      <p class="export-modal-subtitle">Select your desired format. All grounded claims, validation verdicts, and evidence confidence metrics are preserved.</p>
+      
+      <div class="export-options-grid">
+        <!-- Option 1: PowerPoint (.pptx) -->
+        <button type="button" class="export-option-card" id="btnExportPptx">
+          <div class="export-option-icon bg-orange">
+            <svg class="svg-icon-md" aria-hidden="true"><use href="#icon-keynote"/></svg>
+          </div>
+          <div class="export-option-info">
+            <div class="export-option-title">PowerPoint Presentation (.pptx)</div>
+            <div class="export-option-desc">Native 16:9 editable slide deck. Compatible with PowerPoint, Google Slides, and Apple Keynote.</div>
+          </div>
+          <span class="export-action-tag">Download</span>
+        </button>
+
+        <!-- Option 2: Print / PDF Presentation -->
+        <button type="button" class="export-option-card" id="btnExportPdf">
+          <div class="export-option-icon bg-red">
+            <svg class="svg-icon-md" aria-hidden="true"><use href="#icon-printer"/></svg>
+          </div>
+          <div class="export-option-info">
+            <div class="export-option-title">Print / PDF Presentation</div>
+            <div class="export-option-desc">High-resolution paginated 16:9 slides. Clean presentation print and PDF export.</div>
+          </div>
+          <span class="export-action-tag">Print / PDF</span>
+        </button>
+
+        <!-- Option 3: Standalone Interactive HTML Deck -->
+        <button type="button" class="export-option-card" id="btnExportHtml">
+          <div class="export-option-icon bg-blue">
+            <svg class="svg-icon-md" aria-hidden="true"><use href="#icon-layers"/></svg>
+          </div>
+          <div class="export-option-info">
+            <div class="export-option-title">Interactive HTML Presentation</div>
+            <div class="export-option-desc">Self-contained offline presentation file with keyboard navigation and dark/light styling. Runs in any browser.</div>
+          </div>
+          <span class="export-action-tag">Download</span>
+        </button>
+
+        <!-- Option 4: Executive Markdown (.md) -->
+        <button type="button" class="export-option-card" id="btnExportMarkdown">
+          <div class="export-option-icon bg-purple">
+            <svg class="svg-icon-md" aria-hidden="true"><use href="#icon-file-text"/></svg>
+          </div>
+          <div class="export-option-info">
+            <div class="export-option-title">Executive Markdown (.md)</div>
+            <div class="export-option-desc">Clean structured pitch memo with bottom-up math formulas, problem/solution, and evidence citations.</div>
+          </div>
+          <span class="export-action-tag">Download</span>
+        </button>
+
+        <!-- Option 5: Raw Evidence JSON (.json) -->
+        <button type="button" class="export-option-card" id="btnExportJson">
+          <div class="export-option-icon bg-emerald">
+            <svg class="svg-icon-md" aria-hidden="true"><use href="#icon-terminal"/></svg>
+          </div>
+          <div class="export-option-info">
+            <div class="export-option-title">Full Evidence Graph JSON (.json)</div>
+            <div class="export-option-desc">Machine-readable claim graph, SoR audit trail, validation verdicts, and latency metrics.</div>
+          </div>
+          <span class="export-action-tag">Download</span>
+        </button>
+      </div>
     </div>
   </div>
 

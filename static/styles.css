@@ -7456,3 +7456,371 @@ svg circle, svg path {
   padding: 2px 6px;
   border-radius: 4px;
 }
+
+/* ===========================================================================
+   SLIDE GRID MODE (SLIDE SORTER OVERVIEW)
+   =========================================================================== */
+.grid-mode-viewport {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 60px;
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.grid-mode-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-hairline, rgba(255, 255, 255, 0.08));
+}
+
+.grid-mode-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--accent-primary, #60a5fa);
+  text-transform: uppercase;
+}
+
+.grid-mode-heading {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary, #fff);
+  margin: 4px 0 0;
+  letter-spacing: -0.01em;
+}
+
+.grid-mode-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.grid-mode-count {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-tertiary, rgba(255, 255, 255, 0.5));
+  padding: 4px 10px;
+  background: var(--surface-card, rgba(255, 255, 255, 0.04));
+  border-radius: 999px;
+  border: 1px solid var(--border-hairline, rgba(255, 255, 255, 0.08));
+}
+
+.grid-cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 20px;
+}
+
+.grid-slide-card {
+  background: var(--surface-card, #11141b);
+  border: 1px solid var(--border-hairline, rgba(255, 255, 255, 0.08));
+  border-radius: 14px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 230px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.grid-slide-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+.grid-slide-card.active-slide {
+  border-color: var(--accent-primary, #60a5fa);
+  box-shadow: 0 0 0 1px var(--accent-primary, #60a5fa);
+}
+
+.grid-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.grid-card-num-badge {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-tertiary, rgba(255, 255, 255, 0.6));
+}
+
+.grid-card-score {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.grid-card-score.high {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.grid-card-score.med {
+  background: rgba(234, 179, 8, 0.15);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.grid-card-score.flagged {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.grid-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-primary, #fff);
+  line-height: 1.3;
+  margin: 0 0 10px;
+}
+
+.grid-card-snippet {
+  font-size: 0.84rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.7));
+  line-height: 1.45;
+  margin-bottom: 14px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.grid-card-metric-preview {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-primary, #60a5fa);
+  margin-top: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.grid-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.grid-card-claims-count {
+  font-size: 0.74rem;
+  color: var(--text-tertiary, rgba(255, 255, 255, 0.5));
+}
+
+.grid-card-open-btn {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent-primary, #60a5fa);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* ===========================================================================
+   EXPORT MODAL SUITE
+   =========================================================================== */
+.export-modal-card {
+  background: var(--surface-card, #11141c);
+  border: 1px solid var(--border-hairline, rgba(255, 255, 255, 0.12));
+  border-radius: 20px;
+  width: 100%;
+  max-width: 620px;
+  padding: 28px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+  animation: modalScaleIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+}
+
+@keyframes modalScaleIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.export-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.export-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--accent-primary, #60a5fa);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.export-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary, #fff);
+  margin: 2px 0 0;
+  letter-spacing: -0.01em;
+}
+
+.export-modal-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.65));
+  margin: 0 0 22px;
+  line-height: 1.45;
+}
+
+.export-options-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.export-option-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  padding: 14px 18px;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: inherit;
+  width: 100%;
+}
+
+.export-option-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateX(4px);
+}
+
+.export-option-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.export-option-icon.bg-orange {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fb923c;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.export-option-icon.bg-red {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.export-option-icon.bg-blue {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.export-option-icon.bg-purple {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.export-option-icon.bg-emerald {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.export-option-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.export-option-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary, #fff);
+  margin-bottom: 3px;
+}
+
+.export-option-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary, rgba(255, 255, 255, 0.6));
+  line-height: 1.35;
+}
+
+.export-action-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  color: var(--text-primary, #fff);
+  flex-shrink: 0;
+}
+
+/* Enhanced Print Formatting for 16:9 Presentation PDF */
+@media print {
+  @page {
+    size: 16in 9in;
+    margin: 0.5in;
+  }
+  body {
+    background: #0f1218 !important;
+    color: #f0f3f8 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .site-header, .main-tabs-bar, .studio-header-bar, .gamma-outline-rail,
+  .living-bottom-dock, .present-chrome, .present-thumbnail-strip,
+  .context-edit-panel, .history-sidebar, .palette-backdrop,
+  .skip-link, .sr-only, .grid-mode-viewport, .slide-mode-viewport {
+    display: none !important;
+  }
+  .studio-container, .gamma-workspace, .gamma-cards-stream, .cards-stream-list {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .gamma-slide-card {
+    page-break-after: always !important;
+    page-break-inside: avoid !important;
+    break-after: page !important;
+    break-inside: avoid !important;
+    margin-bottom: 0 !important;
+    border: 1px solid #2d3340 !important;
+    border-radius: 12px !important;
+    background: #141822 !important;
+    min-height: 8.5in;
+    box-shadow: none !important;
+  }
+}

@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const studioModelBadge = document.getElementById('studioModelBadge');
   const btnModeDoc = document.getElementById('btnModeDoc');
   const btnModeSlide = document.getElementById('btnModeSlide');
+  const btnModeGrid = document.getElementById('btnModeGrid');
   const gammaWorkspace = document.getElementById('gammaWorkspace');
   const gammaOutlineRail = document.getElementById('gammaOutlineRail');
   const outlineRailCount = document.getElementById('outlineRailCount');
@@ -57,6 +58,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const gammaCardsStream = document.getElementById('gammaCardsStream');
   const cardsStreamList = document.getElementById('cardsStreamList');
   const slideModeViewport = document.getElementById('slideModeViewport');
+  const gridModeViewport = document.getElementById('gridModeViewport');
+  const gridCardsContainer = document.getElementById('gridCardsContainer');
+  const btnGridPresent = document.getElementById('btnGridPresent');
+  const btnExportDeck = document.getElementById('btnExportDeck');
+  const exportModal = document.getElementById('exportModal');
+  const btnExportModalClose = document.getElementById('btnExportModalClose');
+  const btnExportPptx = document.getElementById('btnExportPptx');
+  const btnExportPdf = document.getElementById('btnExportPdf');
+  const btnExportHtml = document.getElementById('btnExportHtml');
+  const btnExportMarkdown = document.getElementById('btnExportMarkdown');
+  const btnExportJson = document.getElementById('btnExportJson');
 
   // DOM Elements — Live Workflow Progress HUD
   const generationWorkflowHud = document.getElementById('generationWorkflowHud');
@@ -1169,26 +1181,85 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // View Mode Switcher (Document vs Slide Mode)
+  // View Mode Switcher (Document vs Slide vs Grid Mode)
   function switchViewMode(mode) {
     if (mode === 'doc') {
       if (gammaCardsStream) gammaCardsStream.classList.remove('hidden');
       if (slideModeViewport) slideModeViewport.classList.add('hidden');
+      if (gridModeViewport) gridModeViewport.classList.add('hidden');
       if (btnModeDoc) btnModeDoc.classList.add('active');
       if (btnModeSlide) btnModeSlide.classList.remove('active');
+      if (btnModeGrid) btnModeGrid.classList.remove('active');
       announceAria('Switched to Gamma continuous document view.');
+    } else if (mode === 'grid') {
+      if (gammaCardsStream) gammaCardsStream.classList.add('hidden');
+      if (slideModeViewport) slideModeViewport.classList.add('hidden');
+      if (gridModeViewport) gridModeViewport.classList.remove('hidden');
+      if (btnModeDoc) btnModeDoc.classList.remove('active');
+      if (btnModeSlide) btnModeSlide.classList.remove('active');
+      if (btnModeGrid) btnModeGrid.classList.add('active');
+      if (currentDeck) renderGridCards(currentDeck);
+      announceAria('Switched to slide grid sorter view.');
     } else {
       if (gammaCardsStream) gammaCardsStream.classList.add('hidden');
       if (slideModeViewport) slideModeViewport.classList.remove('hidden');
+      if (gridModeViewport) gridModeViewport.classList.add('hidden');
       if (btnModeDoc) btnModeDoc.classList.remove('active');
       if (btnModeSlide) btnModeSlide.classList.add('active');
+      if (btnModeGrid) btnModeGrid.classList.remove('active');
       selectSlide(currentSlideIndex);
       announceAria('Switched to single slide presentation view.');
     }
   }
 
+  function renderGridCards(deck) {
+    if (!gridCardsContainer || !deck || !deck.slides) return;
+    gridCardsContainer.innerHTML = '';
+
+    deck.slides.forEach((s, idx) => {
+      const card = document.createElement('div');
+      const isActive = idx === currentSlideIndex;
+      card.className = `grid-slide-card ${isActive ? 'active-slide' : ''}`;
+      
+      const score = typeof s.completeness_score === 'number' ? s.completeness_score : 50;
+      const scoreClass = score >= 70 ? 'high' : (score >= 50 ? 'med' : 'flagged');
+
+      const lines = (s.content || '').split('\n').filter(l => l.trim().length > 0);
+      const snippet = lines.slice(0, 2).map(l => l.replace(/^[•\-\*]\s*/, '')).join(' • ') || 'Slide content';
+
+      const benchmarkClaim = (s.claims || []).find(c => c.source === 'benchmark_estimate');
+      const mathClaim = (s.claims || []).find(c => (c.text || '').match(/(\$|\%|\d+)/));
+      const metricText = benchmarkClaim ? benchmarkClaim.text : (mathClaim ? mathClaim.text : (s.takeaway || 'Verified against System of Record'));
+
+      card.innerHTML = `
+        <div class="grid-card-top">
+          <span class="grid-card-num-badge">SLIDE ${s.slide_number || (idx + 1)}</span>
+          <span class="grid-card-score ${scoreClass}">${score}% Conf</span>
+        </div>
+        <h4 class="grid-card-title">${escapeHtml(s.title || `Slide ${idx + 1}`)}</h4>
+        <div class="grid-card-snippet">${escapeHtml(snippet)}</div>
+        <div class="grid-card-metric-preview">${escapeHtml(metricText)}</div>
+        <div class="grid-card-footer">
+          <span class="grid-card-claims-count">${(s.claims || []).length} Grounded Claims</span>
+          <button type="button" class="grid-card-open-btn">Open Slide →</button>
+        </div>
+      `;
+
+      card.addEventListener('click', () => {
+        currentSlideIndex = idx;
+        switchViewMode('slide');
+        selectSlide(idx);
+        playTone(520, 'sine', 0.04);
+      });
+
+      gridCardsContainer.appendChild(card);
+    });
+  }
+
   if (btnModeDoc) btnModeDoc.addEventListener('click', () => switchViewMode('doc'));
   if (btnModeSlide) btnModeSlide.addEventListener('click', () => switchViewMode('slide'));
+  if (btnModeGrid) btnModeGrid.addEventListener('click', () => switchViewMode('grid'));
+  if (btnGridPresent) btnGridPresent.addEventListener('click', openPresentMode);
   if (btnBackToLanding) btnBackToLanding.addEventListener('click', transitionToLanding);
 
   // Render Full 10-Slide Deck & Sync All Views
@@ -1204,6 +1275,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Render Gamma Document Stream & Outline Rail
     renderGammaCards(deck);
     renderOutlineRail(deck.slides);
+
+    // Render Grid Sorter Cards
+    renderGridCards(deck);
 
     // Select Active Slide
     selectSlide(currentSlideIndex);
@@ -1895,9 +1969,19 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    if (exportModal && !exportModal.classList.contains('hidden')) {
+      if (e.key === 'Escape') {
+        closeExportModal();
+        return;
+      }
+    }
+
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
       e.preventDefault();
       toggleCommandPalette();
+    } else if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'e') {
+      e.preventDefault();
+      openExportModal();
     }
   });
 
@@ -2447,16 +2531,303 @@ document.addEventListener('DOMContentLoaded', () => {
     { title: 'View: Pitch Studio (Primary View)', action: () => { toggleCommandPalette(); switchMainView('viewPitch'); } },
     { title: 'View: Evidence & Systems of Record (Track C)', action: () => { toggleCommandPalette(); switchMainView('viewEvidence'); } },
     { title: 'View: Audit & Pipeline Telemetry', action: () => { toggleCommandPalette(); switchMainView('viewTelemetry'); } },
+    { title: 'View Mode: Document Flow (Continuous)', action: () => { toggleCommandPalette(); switchViewMode('doc'); } },
+    { title: 'View Mode: Single Slide (16:9 Canvas)', action: () => { toggleCommandPalette(); switchViewMode('slide'); } },
+    { title: 'View Mode: Grid Sorter (All Slides)', action: () => { toggleCommandPalette(); switchViewMode('grid'); } },
+    { title: 'Present Deck Fullscreen (P)', action: () => { toggleCommandPalette(); openPresentMode(); } },
+    { title: 'Export Pitch Deck (All Formats)', action: () => { toggleCommandPalette(); openExportModal(); } },
+    { title: 'Export as PowerPoint (.pptx)', action: () => { toggleCommandPalette(); exportDeckPptx(); } },
+    { title: 'Export as PDF / Print Slides', action: () => { toggleCommandPalette(); exportDeckPdf(); } },
+    { title: 'Export as Standalone HTML Deck', action: () => { toggleCommandPalette(); exportDeckHtml(); } },
+    { title: 'Export as Executive Markdown (.md)', action: () => { toggleCommandPalette(); exportDeckMarkdown(); } },
+    { title: 'Export as Full Evidence JSON (.json)', action: () => { toggleCommandPalette(); exportDeckJson(); } },
     { title: 'New Pitch Idea', action: () => { toggleCommandPalette(); transitionToLanding(); } },
-    { title: 'Present Deck Fullscreen', action: () => { toggleCommandPalette(); openPresentMode(); } },
-    { title: 'Export Deck JSON', action: () => { toggleCommandPalette(); exportDeckJson(); } },
     { title: 'Open Engine Room / Telemetry', action: () => { toggleCommandPalette(); openEngineDrawer(); } },
     { title: 'Toggle Dark / Light Theme', action: () => { btnThemeToggle && btnThemeToggle.click(); toggleCommandPalette(); } },
     { title: 'Toggle Audio Effects', action: () => { btnSoundToggle && btnSoundToggle.click(); toggleCommandPalette(); } }
   ];
 
+  // ==========================================================================
+  // EXPORT MODAL & SUITE CONTROLLERS
+  // ==========================================================================
+
+  function openExportModal() {
+    if (!currentDeck || !currentDeck.slides || currentDeck.slides.length === 0) {
+      announceAria('Generate a deck first before exporting.');
+      return;
+    }
+    if (exportModal) {
+      exportModal.classList.remove('hidden');
+      exportModal.style.display = 'flex';
+      announceAria('Export modal opened. Choose your export format.');
+    }
+  }
+
+  function closeExportModal() {
+    if (exportModal) {
+      exportModal.classList.add('hidden');
+      exportModal.style.display = 'none';
+    }
+  }
+
+  function exportDeckPptx() {
+    if (!currentDeck || !currentDeck.slides) {
+      announceAria('Generate a pitch deck first to export.');
+      return;
+    }
+    closeExportModal();
+
+    try {
+      if (typeof PptxGenJS === 'undefined') {
+        announceAria('PowerPoint generator loading, falling back to markdown export.');
+        exportDeckMarkdown();
+        return;
+      }
+
+      const pptx = new PptxGenJS();
+      pptx.layout = 'LAYOUT_16x9';
+      pptx.author = 'Startup Pitch Pressure-Tester';
+      pptx.title = currentDeck.title || currentConcept || 'Pitch Deck';
+
+      // Slide 1: Cover Slide
+      const cover = pptx.addSlide();
+      cover.background = { color: '0D1117' };
+      cover.addText((currentDeck.title || currentConcept || 'STARTUP PITCH DECK').toUpperCase(), {
+        x: 1.0, y: 1.8, w: 11.3, h: 1.6,
+        fontSize: 34, fontFace: 'Arial', bold: true, color: 'FFFFFF', align: 'left'
+      });
+      cover.addText('PRESSURE-TESTED & VERIFIED BY EVIDENCE GRAPH ENGINE', {
+        x: 1.0, y: 3.4, w: 11.3, h: 0.5,
+        fontSize: 13, fontFace: 'Arial', bold: true, color: '60A5FA', align: 'left'
+      });
+      const avgScore = Math.round((currentDeck.slides || []).reduce((acc, s) => acc + (s.completeness_score || 0), 0) / (currentDeck.slides.length || 1));
+      cover.addText(`Aggregate Verification Confidence: ${avgScore}% | Business Model: ${currentDeck.business_model || 'B2B'}`, {
+        x: 1.0, y: 4.1, w: 11.3, h: 0.5,
+        fontSize: 12, fontFace: 'Arial', color: '94A3B8', align: 'left'
+      });
+
+      // Slides 2 - 11
+      currentDeck.slides.forEach((s, idx) => {
+        const slide = pptx.addSlide();
+        slide.background = { color: '0D1117' };
+
+        // Slide Kicker & Number
+        slide.addText(`SLIDE ${s.slide_number || (idx + 1)} • ${s.verdict === 'pass' ? 'GROUNDED' : 'DEFENSIBILITY GAP'}`, {
+          x: 0.8, y: 0.5, w: 9.0, h: 0.4,
+          fontSize: 11, fontFace: 'Arial', bold: true, color: s.verdict === 'pass' ? '4ADE80' : 'F87171'
+        });
+
+        // Slide Title
+        slide.addText(s.title || `Slide ${idx + 1}`, {
+          x: 0.8, y: 0.9, w: 10.5, h: 0.8,
+          fontSize: 24, fontFace: 'Arial', bold: true, color: 'FFFFFF'
+        });
+
+        // Confidence Badge on Top Right
+        const score = typeof s.completeness_score === 'number' ? s.completeness_score : 50;
+        slide.addText(`${score}% Conf`, {
+          x: 11.0, y: 0.6, w: 1.8, h: 0.4,
+          fontSize: 12, fontFace: 'Arial', bold: true, color: score >= 70 ? '4ADE80' : 'FACC15',
+          align: 'right'
+        });
+
+        // Bullet Points
+        const lines = (s.content || '').split('\n').filter(l => l.trim().length > 0);
+        const textItems = lines.map(line => ({
+          text: line.replace(/^[•\-\*]\s*/, ''),
+          options: { fontSize: 13, fontFace: 'Arial', color: 'CBD5E1', bullet: true, lineSpacing: 22, breakLine: true }
+        }));
+
+        slide.addText(textItems.length > 0 ? textItems : [{ text: s.content || '', options: { fontSize: 13, color: 'CBD5E1' } }], {
+          x: 0.8, y: 1.8, w: 7.2, h: 4.5
+        });
+
+        // Metric Highlight Box on Right
+        const benchmarkClaim = (s.claims || []).find(c => c.source === 'benchmark_estimate');
+        const mathClaim = (s.claims || []).find(c => (c.text || '').match(/(\$|\%|\d+)/));
+        const highlightText = benchmarkClaim ? benchmarkClaim.text : (mathClaim ? mathClaim.text : (s.takeaway || 'Verified against System of Record'));
+
+        slide.addShape(pptx.ShapeType.rect, {
+          x: 8.4, y: 1.8, w: 4.4, h: 2.5,
+          fill: { color: '1A202C' },
+          line: { color: '2D3748', width: 1 }
+        });
+
+        slide.addText('GROUNDED METRIC / SIGNAL', {
+          x: 8.6, y: 2.0, w: 4.0, h: 0.3,
+          fontSize: 9, fontFace: 'Arial', bold: true, color: '60A5FA'
+        });
+
+        slide.addText(highlightText, {
+          x: 8.6, y: 2.4, w: 4.0, h: 1.7,
+          fontSize: 12, fontFace: 'Arial', bold: true, color: 'FFFFFF'
+        });
+
+        // Footer: Claims & Sources
+        const claimSources = (s.claims || []).map(c => c.source).filter(Boolean).slice(0, 3).join(' • ');
+        slide.addText(`Evidence Sources: ${claimSources || 'Official Systems of Record (SEC EDGAR, USPTO, GitHub, Stripe)'}`, {
+          x: 0.8, y: 6.7, w: 11.5, h: 0.4,
+          fontSize: 9, fontFace: 'Arial', color: '64748B'
+        });
+      });
+
+      const safeTitle = (currentDeck.title || 'pitch-deck').toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      pptx.writeFile({ fileName: `${safeTitle}-${currentDeck.run_id || 'deck'}.pptx` });
+      announceAria('PowerPoint presentation (.pptx) downloaded successfully!');
+      playTone(600, 'sine', 0.05);
+    } catch (err) {
+      console.error('PPTX export error:', err);
+      exportDeckMarkdown();
+    }
+  }
+
+  function exportDeckPdf() {
+    closeExportModal();
+    if (!currentDeck) {
+      announceAria('Generate a pitch deck first to print or export as PDF.');
+      return;
+    }
+    // Switch to continuous document view so all 10 slide cards are present in DOM for print
+    switchViewMode('doc');
+    announceAria('Opening print dialog for PDF presentation export.');
+    setTimeout(() => {
+      window.print();
+    }, 300);
+  }
+
+  function exportDeckHtml() {
+    if (!currentDeck || !currentDeck.slides) {
+      announceAria('Generate a pitch deck first to export.');
+      return;
+    }
+    closeExportModal();
+
+    const slidesHtml = currentDeck.slides.map((s, idx) => `
+      <section class="slide" id="slide-${idx + 1}">
+        <div class="slide-header">
+          <span class="kicker">SLIDE ${idx + 1} • ${s.verdict === 'pass' ? 'GROUNDED' : 'DEFENSIBILITY GAP'}</span>
+          <span class="conf-badge">${s.completeness_score || 50}% Conf</span>
+        </div>
+        <h2 class="slide-title">${escapeHtml(s.title || '')}</h2>
+        <div class="slide-body">
+          <div class="slide-text">
+            ${(s.content || '').split('\n').filter(l => l.trim()).map(l => `<p>• ${escapeHtml(l.replace(/^[•\-\*]\s*/, ''))}</p>`).join('')}
+          </div>
+          <div class="slide-callout">
+            <div class="callout-label">GROUNDED METRIC / TAKEAWAY</div>
+            <div class="callout-val">${escapeHtml(s.takeaway || (s.claims && s.claims[0] && s.claims[0].text) || 'Verified System of Record')}</div>
+          </div>
+        </div>
+        <div class="slide-footer">
+          <span>Claims & Evidence: ${(s.claims || []).map(c => escapeHtml(c.source || 'SoR')).join(', ') || 'Official Systems of Record'}</span>
+          <span>Startup Pitch Pressure-Tester</span>
+        </div>
+      </section>
+    `).join('\n');
+
+    const fullHtml = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHtml(currentDeck.title || currentConcept || 'Pitch Deck')}</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #0a0d14; color: #f0f3f8; padding: 40px 20px; }
+  .deck-header { max-width: 1000px; margin: 0 auto 30px; padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; }
+  .deck-title { font-size: 1.8rem; font-weight: 800; color: #fff; }
+  .deck-meta { font-size: 0.9rem; color: #60a5fa; font-family: monospace; }
+  .slides-container { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 32px; }
+  .slide { background: #121620; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 36px; aspect-ratio: 16 / 9; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 12px 36px rgba(0,0,0,0.5); }
+  .slide-header { display: flex; justify-content: space-between; align-items: center; }
+  .kicker { font-family: monospace; font-size: 0.75rem; font-weight: 700; color: #60a5fa; letter-spacing: 0.08em; }
+  .conf-badge { font-family: monospace; font-size: 0.75rem; font-weight: 700; background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); padding: 4px 10px; border-radius: 999px; }
+  .slide-title { font-size: 1.6rem; font-weight: 700; color: #fff; margin: 8px 0; }
+  .slide-body { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin: 16px 0; flex: 1; align-items: center; }
+  .slide-text p { font-size: 1rem; color: #cbd5e1; line-height: 1.6; margin-bottom: 8px; }
+  .slide-callout { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 20px; }
+  .callout-label { font-family: monospace; font-size: 0.7rem; font-weight: 700; color: #60a5fa; margin-bottom: 8px; }
+  .callout-val { font-size: 1.1rem; font-weight: 700; color: #fff; line-height: 1.4; }
+  .slide-footer { display: flex; justify-content: space-between; font-size: 0.75rem; color: rgba(255,255,255,0.4); border-top: 1px solid rgba(255,255,255,0.06); padding-top: 12px; }
+  @media print {
+    body { background: #fff !important; color: #000 !important; padding: 0; }
+    .deck-header { display: none; }
+    .slide { page-break-after: always; break-after: page; border: 1px solid #ccc; background: #fff !important; color: #000 !important; box-shadow: none; aspect-ratio: auto; height: 100vh; }
+    .slide-title, .callout-val { color: #000 !important; }
+    .slide-text p { color: #333 !important; }
+  }
+</style>
+</head>
+<body>
+  <div class="deck-header">
+    <div>
+      <h1 class="deck-title">${escapeHtml(currentDeck.title || currentConcept || 'Pitch Deck')}</h1>
+      <p style="color: #94a3b8; font-size: 0.85rem; margin-top: 4px;">Verified by Evidence Graph Engine</p>
+    </div>
+    <div class="deck-meta">10 Grounded Slides</div>
+  </div>
+  <div class="slides-container">
+    ${slidesHtml}
+  </div>
+</body>
+</html>`;
+
+    const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pitch-deck-${currentDeck.run_id || 'deck'}.html`;
+    a.click();
+    URL.revokeObjectURL(url);
+    announceAria('Standalone interactive presentation (.html) exported successfully.');
+    playTone(580, 'sine', 0.05);
+  }
+
+  function exportDeckMarkdown() {
+    if (!currentDeck || !currentDeck.slides) {
+      announceAria('Generate a pitch deck first to export.');
+      return;
+    }
+    closeExportModal();
+
+    let md = `# 🚀 ${currentDeck.title || currentConcept || 'Startup Pitch Deck'}\n\n`;
+    md += `**Business Model:** ${currentDeck.business_model || 'B2B'} | **Run ID:** \`${currentDeck.run_id || 'N/A'}\` | **Verified by:** Evidence Graph Engine\n\n`;
+    md += `---\n\n`;
+
+    currentDeck.slides.forEach((s, idx) => {
+      md += `## Slide ${idx + 1}: ${s.title || `Slide ${idx + 1}`}\n`;
+      md += `**Verification Confidence:** ${s.completeness_score || 50}% • **Status:** ${s.verdict === 'pass' ? '✅ Grounded' : '⚠️ Flagged'}\n\n`;
+      md += `${s.content || ''}\n\n`;
+      if (s.takeaway) {
+        md += `> **Key Takeaway / Grounded Metric:** ${s.takeaway}\n\n`;
+      }
+      if (s.claims && s.claims.length > 0) {
+        md += `### Evidence & Claims\n`;
+        s.claims.forEach(c => {
+          md += `- **${c.source || 'SoR'}:** ${c.text} (Confidence: ${Math.round((c.confidence || 0.8) * 100)}%)\n`;
+        });
+        md += `\n`;
+      }
+      md += `---\n\n`;
+    });
+
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `pitch-deck-${currentDeck.run_id || 'deck'}.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+    announceAria('Executive pitch deck (.md) exported successfully.');
+    playTone(560, 'sine', 0.05);
+  }
+
   function exportDeckJson() {
-    if (!currentDeck) return;
+    if (!currentDeck) {
+      announceAria('Generate a deck first to export JSON.');
+      return;
+    }
+    closeExportModal();
     const blob = new Blob([JSON.stringify(currentDeck, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -2464,6 +2835,23 @@ document.addEventListener('DOMContentLoaded', () => {
     a.download = `pitch-deck-${currentDeck.run_id || 'export'}.json`;
     a.click();
     URL.revokeObjectURL(url);
+    announceAria('Full evidence graph JSON exported successfully.');
+    playTone(520, 'sine', 0.04);
+  }
+
+  // Export Modal Button Listeners
+  if (btnExportDeck) btnExportDeck.addEventListener('click', openExportModal);
+  if (btnExportModalClose) btnExportModalClose.addEventListener('click', closeExportModal);
+  if (btnExportPptx) btnExportPptx.addEventListener('click', exportDeckPptx);
+  if (btnExportPdf) btnExportPdf.addEventListener('click', exportDeckPdf);
+  if (btnExportHtml) btnExportHtml.addEventListener('click', exportDeckHtml);
+  if (btnExportMarkdown) btnExportMarkdown.addEventListener('click', exportDeckMarkdown);
+  if (btnExportJson) btnExportJson.addEventListener('click', exportDeckJson);
+
+  if (exportModal) {
+    exportModal.addEventListener('click', (e) => {
+      if (e.target === exportModal) closeExportModal();
+    });
   }
 
   function renderPaletteOptions(query) {
