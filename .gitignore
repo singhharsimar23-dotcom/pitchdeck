@@ -1,0 +1,33 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.env
+.venv/
+venv/
+env/
+
+# Google Cloud / Credentials
+*.json
+service-account*.json
+application_default_credentials.json
+gcloud/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Scratch
+scratch/
+*.log
+.DS_Store
+Thumbs.db
+
+# Test artifacts
+test_*.py

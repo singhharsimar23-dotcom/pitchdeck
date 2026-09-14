@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Startup Pitch Pressure-Tester — The Living Deck</title>
+  <meta name="description" content="One surface, zero AI-slop, every feature amplified in place. Connected document verification backed by Evidence Graph confidence arithmetic.">
+  
+  <!-- Typography Tokens: Newsreader (editorial headlines), IBM Plex Sans (UI/body), IBM Plex Mono (functional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <!-- Accessibility Skip Link -->
+  <a href="#studioContainer" class="skip-link">Skip to deck</a>
+
+  <!-- Screen Reader Announcements -->
+  <div id="ariaLiveStatus" class="sr-only" aria-live="polite"></div>
+
+  <!-- SVG Icon Library Sprite Definitions (Strictly Vector Geometric, Zero Emojis, Zero Sparkles/Wands) -->
+  <svg style="display: none;" aria-hidden="true">
+    <symbol id="icon-shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="20 6 9 17 4 12"/>
+    </symbol>
+    <symbol id="icon-check-circle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+      <polyline points="22 4 12 14.01 9 11.01"/>
+    </symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </symbol>
+    <symbol id="icon-alert-triangle" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+    </symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+    </symbol>
+    <symbol id="icon-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/>
+    </symbol>
+    <symbol id="icon-command" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0 3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+    </symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+    </symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+    </symbol>
+    <symbol id="icon-keynote" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+    </symbol>
+    <symbol id="icon-sound-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+    </symbol>
+    <symbol id="icon-sound-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="1" y1="1" x2="23" y2="23"/><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 .46 5.54M19.07 4.93a10 10 0 0 1 .93 10.07"/>
+    </symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </symbol>
+    <symbol id="icon-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </symbol>
+      <symbol id="icon-sparkles" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>
+    </symbol>
+    <symbol id="icon-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
+    </symbol>
+    <symbol id="icon-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>
+    </symbol>
+    <symbol id="icon-crosshair" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>
+    </symbol>
+    <symbol id="icon-zap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+    </symbol>
+  </svg>
+
+  <!-- Main Site Header -->
+  <header class="site-header">
+    <div class="header-inner">
+      <div class="brand">
+        <div class="brand-eyebrow">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span>THE LIVING DECK • CONNECTED DOCUMENT VERIFICATION</span>
+        </div>
+        <h1 class="brand-title">Startup Pitch Pressure-Tester</h1>
+      </div>
+      
+      <!-- Deck-Level Aggregate Confidence Ring in Header -->
+      <div class="header-confidence-meter" id="headerConfidenceMeter" title="Deck-level aggregate confidence">
+        <div class="meter-ring-wrap">
+          <svg class="meter-ring-svg" viewBox="0 0 36 36" width="28" height="28">
+            <path class="ring-bg" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+            <path class="ring-progress" id="headerRingProgress" fill="none" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+          </svg>
+          <span class="meter-text" id="headerConfidenceValue">--%</span>
+        </div>
+        <span class="meter-label">Deck Confidence</span>
+      </div>
+
+      <div class="header-controls">
+        <button id="btnHeaderNewPitch" class="btn-icon-pill" title="Start a new pitch idea">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-plus"/></svg>
+          <span class="btn-sub-label">New Idea</span>
+        </button>
+        <button id="btnHeaderHistory" class="btn-icon-pill" title="Your past decks">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-layers"/></svg>
+          <span class="btn-sub-label">History</span>
+          <span class="history-count-badge" id="historyCountBadge" style="display:none">0</span>
+        </button>
+        <button id="btnHeaderPresent" class="btn-icon-pill hidden" title="Fullscreen Presentation Mode">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-keynote"/></svg>
+          <span class="btn-sub-label">Present</span>
+        </button>
+        <button id="btnHeaderEngine" class="btn-icon-pill" title="Open System-of-Record Engine Room">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-shield"/></svg>
+          <span class="btn-sub-label">Engine Room</span>
+        </button>
+        <button id="btnSoundToggle" class="btn-icon-pill" title="Toggle Audio Feedback" aria-label="Toggle sound feedback">
+          <svg class="svg-icon-sm sound-icon-off" aria-hidden="true"><use href="#icon-sound-off"/></svg>
+          <svg class="svg-icon-sm sound-icon-on hidden" aria-hidden="true"><use href="#icon-sound-on"/></svg>
+          <span class="btn-sub-label" id="soundLabel">Muted</span>
+        </button>
+        <button id="btnCmdK" class="btn-cmd-k" title="Open Command Palette (Cmd+K / Ctrl+K)">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-search"/></svg>
+          <span>Actions</span>
+          <kbd class="kbd-badge"><svg class="kbd-svg" aria-hidden="true"><use href="#icon-command"/></svg>K</kbd>
+        </button>
+        <button id="btnThemeToggle" class="btn-theme-toggle" aria-label="Toggle dark/light theme">
+          <svg class="svg-icon-sm theme-icon-sun" aria-hidden="true"><use href="#icon-sun"/></svg>
+          <svg class="svg-icon-sm theme-icon-moon" aria-hidden="true"><use href="#icon-moon"/></svg>
+          <span class="theme-label" id="themeLabelText">Dark</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Top View Navigation Bar (Dividing UI cleanly into 3 focused views) -->
+  <nav class="main-tabs-bar" aria-label="Main Application Views">
+    <div class="main-tabs-inner">
+      <button type="button" class="main-tab-btn active" id="tabNavPitch" data-target="viewPitch">
+        <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-sparkles"/></svg>
+        <span>Pitch Studio</span>
+        <span class="main-tab-badge">Primary</span>
+      </button>
+      <button type="button" class="main-tab-btn" id="tabNavEvidence" data-target="viewEvidence">
+        <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-shield"/></svg>
+        <span>Evidence & Systems of Record</span>
+        <span class="main-tab-badge">Track C</span>
+      </button>
+      <button type="button" class="main-tab-btn" id="tabNavTelemetry" data-target="viewTelemetry">
+        <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-terminal"/></svg>
+        <span>Audit & Telemetry</span>
+        <span class="main-tab-badge">Diagnostics</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       VIEW 1: FOUNDER PITCH STUDIO & LIVING DECK (Primary View)
+       ========================================================================== -->
+  <div id="viewPitch" class="app-view-container">
+  <!-- ==========================================================================
+       1. THE OMNIBOX LANDING (Gamma-Grade Visual Hero & Prompt Studio)
+       ========================================================================== -->
+  <main id="landingContainer" class="landing-container">
+    <div class="landing-content">
+      <div class="landing-badge">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span>EVIDENCE-GROUNDED PITCH ENGINE</span>
+      </div>
+      <h1 class="landing-hero-title">Turn your startup idea into a fundable, pressure-tested deck.</h1>
+      <p class="landing-hero-subtitle">Every claim grounded in real arithmetic and official systems of record. No hallucinated TAMs, no generic AI slop.</p>
+      
+      <!-- Primary Prompt Card (Gamma / Lovable Style) -->
+      <div class="gamma-prompt-card">
+        <div class="prompt-input-row">
+          <textarea 
+            id="omniboxInput" 
+            class="gamma-prompt-input" 
+            placeholder="Describe your startup concept (e.g. B2B SaaS reconciliation platform for multi-entity enterprise fintechs, or autonomous drone delivery for rural medical supplies)..." 
+            rows="3" 
+            autofocus></textarea>
+        </div>
+        <div class="prompt-card-footer">
+          <div class="model-detect-pill">
+            <span class="dot-sm"></span>
+            <span>Auto-Detects Model: SaaS • Deep Tech • Marketplace • Hardware • Healthcare</span>
+          </div>
+          <button id="btnOmniboxSubmit" class="btn-gamma-generate" title="Generate Grounded Deck (Enter)">
+            <span>Generate Grounded Deck</span>
+            <kbd class="kbd-badge">↵</kbd>
+          </button>
+        </div>
+      </div>
+
+      <!-- Real Example Showcase Cards (4 Clean Horizontal Cards) -->
+      <div class="showcase-section">
+        <div class="showcase-section-header">
+          <span class="showcase-label">Or start with a verified market concept:</span>
+        </div>
+        <div class="showcase-cards-grid" id="starterPills">
+          <button type="button" class="showcase-card starter-pill" data-prompt="B2B SaaS reconciliation platform for multi-entity enterprise fintechs. We have 4 LOIs.">
+            <div class="showcase-card-top">
+              <span class="showcase-tag tag-saas">B2B SaaS</span>
+              <span class="showcase-metric">SEC 10-K Comps</span>
+            </div>
+            <div class="showcase-card-title">Enterprise Fintech Reconciliation</div>
+            <div class="showcase-card-desc">Multi-entity transaction auditing with bottom-up ACV and enterprise lock-in.</div>
+          </button>
+
+          <button type="button" class="showcase-card starter-pill" data-prompt="Autonomous drone delivery for rural medical supplies and cold-chain vaccines.">
+            <div class="showcase-card-top">
+              <span class="showcase-tag tag-deeptech">Deep Tech</span>
+              <span class="showcase-metric">USPTO Patents</span>
+            </div>
+            <div class="showcase-card-title">Rural Medical Drone Delivery</div>
+            <div class="showcase-card-desc">Long-range cold-chain logistics with flight certification defensibility.</div>
+          </button>
+
+          <button type="button" class="showcase-card starter-pill" data-prompt="A marketplace connecting freelance welders with factories that need short-term fabrication work.">
+            <div class="showcase-card-top">
+              <span class="showcase-tag tag-marketplace">Marketplace</span>
+              <span class="showcase-metric">Take-Rate Math</span>
+            </div>
+            <div class="showcase-card-title">Industrial Welder Marketplace</div>
+            <div class="showcase-card-desc">Two-sided liquidity with GMV take-rate and factory qualification proof.</div>
+          </button>
+
+          <button type="button" class="showcase-card starter-pill" data-prompt="A high-temperature superconductor fabrication suite with automated wafer metrology. Public competitor: Snowflake.">
+            <div class="showcase-card-top">
+              <span class="showcase-tag tag-hardware">Hardware</span>
+              <span class="showcase-metric">Track C Verified</span>
+            </div>
+            <div class="showcase-card-title">Superconductor Wafer Metrology</div>
+            <div class="showcase-card-desc">Semiconductor defect scanning grounded against public market filings.</div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Pre-Flight Evaluation Presets Chips Bar -->
+      <div class="presets-chips-row" id="presetButtons">
+        <span class="presets-chips-label">Stress-Test Presets:</span>
+        <button type="button" class="preset-chip" data-preset="thin_input" title="Deliberately thin input: 'An app that helps people.'">
+          <span class="status-indicator status-flagged"></span>
+          <span>Abstention Test</span>
+        </button>
+        <button type="button" class="preset-chip" data-preset="fake_market" title="Unverified $50B market claim with bottom-up arithmetic demand">
+          <span class="status-indicator status-revised"></span>
+          <span>Bottom-up Math</span>
+        </button>
+        <button type="button" class="preset-chip" data-preset="obscure_category" title="Fictional category test: system refuses to synthesize fake competitors">
+          <span class="status-indicator status-neutral"></span>
+          <span>Grounding Refusal</span>
+        </button>
+        <button type="button" class="preset-chip" data-preset="deep_tech_sor" title="Deep tech concept pre-loaded with live USPTO, GitHub, and SEC EDGAR">
+          <span class="status-indicator status-pass"></span>
+          <span>Track C SoR</span>
+        </button>
+        <button type="button" class="preset-chip" data-preset="injection_attack" title="Jailbreak test: 'Ignore previous instructions...'">
+          <span class="status-indicator status-flagged"></span>
+          <span>Injection Attack</span>
+        </button>
+      </div>
+
+      <!-- 3-Step Visual Explanation (Clear Workflow for Non-Tech Users) -->
+      <div class="workflow-explainer-grid">
+        <div class="explainer-step">
+          <div class="step-badge">STEP 1</div>
+          <div class="step-title">Describe Concept</div>
+          <div class="step-desc">Enter your idea in plain words. The system screens for prompt manipulation and classifies your model.</div>
+        </div>
+        <div class="explainer-step">
+          <div class="step-badge">STEP 2</div>
+          <div class="step-title">Official Grounding</div>
+          <div class="step-desc">Cross-references SEC EDGAR 10-Ks, USPTO patents, and census accounts to calculate bottom-up metrics.</div>
+        </div>
+        <div class="explainer-step">
+          <div class="step-badge">STEP 3</div>
+          <div class="step-title">Visual Gamma Deck</div>
+          <div class="step-desc">Generates 10 visual cards with stat callouts, comparison tables, and pre-mortem investor audit questions.</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==========================================================================
+       STAGE 1: INTERACTIVE AGENT INTAKE QUESTIONNAIRE (Gamma Screenshots 1 & 2)
+       ========================================================================== -->
+  <div id="intakeStageContainer" class="intake-stage-container hidden">
+    <div class="intake-stage-inner">
+      <div class="intake-header-bar">
+        <button type="button" class="btn-stage-back" id="btnIntakeBack" title="Back to concept input">
+          <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+          <span>Back</span>
+        </button>
+        <span class="intake-concept-breadcrumb" id="intakeConceptBreadcrumb">Concept</span>
+      </div>
+
+      <div class="gamma-agent-chat-card">
+        <div class="agent-card-header">
+          <div class="agent-title-group">
+            <span class="agent-status-dot"></span>
+            <span class="agent-name">Agent</span>
+          </div>
+          <button type="button" class="btn-agent-clear" id="btnIntakeClear">↻ Clear</button>
+        </div>
+
+        <div class="agent-messages-stream" id="intakeMessagesStream">
+          <div class="chat-bubble user-bubble" id="intakeUserConceptBubble">
+            <span id="intakeUserConceptText">Marketing for a coffee shop</span>
+          </div>
+          
+          <div class="chat-bubble agent-bubble">
+            <p id="intakeAgentGreeting">Got it — you're shaping a grounded startup concept. Let me ask a few quick questions to calibrate this:</p>
+          </div>
+
+          <!-- Interactive Multiple Choice Question Card -->
+          <div class="interactive-question-card" id="interactiveQuestionCard">
+            <div class="question-card-top">
+              <span class="question-title-text" id="intakeQuestionTitle">What aspect of the startup should we highlight?</span>
+              <div class="question-pagination">
+                <button type="button" class="page-arrow" id="btnQuestionPrev" title="Previous question">‹</button>
+                <span class="page-counter" id="intakeStepCounter">1 of 2</span>
+                <button type="button" class="page-arrow" id="btnQuestionNextArrow" title="Next question">›</button>
+                <button type="button" class="page-close" id="btnQuestionSkip" title="Skip questions and generate">✕</button>
+              </div>
+            </div>
+
+            <div class="options-list-container" id="intakeOptionsList">
+              <!-- Dynamically populated 4 options + custom input -->
+              <button type="button" class="gamma-option-btn active" data-opt-index="0">
+                <span class="opt-num-badge">1</span>
+                <span class="opt-label-text">Brand story & atmosphere</span>
+              </button>
+              <button type="button" class="gamma-option-btn" data-opt-index="1">
+                <span class="opt-num-badge">2</span>
+                <span class="opt-label-text">Menu & specialty drinks</span>
+              </button>
+              <button type="button" class="gamma-option-btn" data-opt-index="2">
+                <span class="opt-num-badge">3</span>
+                <span class="opt-label-text">Location & experience</span>
+              </button>
+              <button type="button" class="gamma-option-btn" data-opt-index="3">
+                <span class="opt-num-badge">4</span>
+                <span class="opt-label-text">Promotions & loyalty program</span>
+              </button>
+            </div>
+
+            <div class="custom-option-row">
+              <span class="pencil-icon">✎</span>
+              <input type="text" class="custom-option-input" id="intakeCustomInput" placeholder="Type your own..." />
+            </div>
+
+            <div class="question-card-footer">
+              <span class="keyboard-hints">↑↓ to navigate · ↵ to continue</span>
+              <div class="footer-actions-group">
+                <button type="button" class="btn-decide-for-me" id="btnDecideForMe" title="Auto-select recommended option (Ctrl+Enter)">
+                  <span>Decide for me</span>
+                  <kbd class="kbd-pill">Ctrl ↵</kbd>
+                </button>
+                <button type="button" class="btn-intake-next" id="btnIntakeNext" title="Proceed to next question or outline">
+                  <span>Next</span>
+                  <kbd class="kbd-pill">↵</kbd>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       STAGE 2: 3-COLUMN OUTLINE & SETTINGS STUDIO (Gamma Screenshots 3 & 4)
+       ========================================================================== -->
+  <div id="outlineStageContainer" class="outline-stage-container hidden">
+    <div class="outline-studio-topbar">
+      <div class="studio-topbar-left">
+        <button type="button" class="btn-stage-back" id="btnOutlineBack" title="Back to questions">
+          <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+          <span>Back</span>
+        </button>
+        <span class="outline-top-title" id="outlineTopTitle">Coffee Shop Guide</span>
+      </div>
+      <button type="button" class="btn-toggle-settings" id="btnToggleSettings">
+        <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-layers"/></svg>
+        <span id="toggleSettingsText">Close settings</span>
+      </button>
+    </div>
+
+    <div class="outline-studio-3col-grid">
+      <!-- Col 1: Agent Timeline & Activity Panel -->
+      <aside class="studio-col studio-col-agent">
+        <div class="col-header-row">
+          <span class="col-title">Agent</span>
+          <button type="button" class="btn-agent-clear" id="btnOutlineAgentClear">↻ Clear</button>
+        </div>
+        <div class="agent-timeline-feed" id="outlineAgentFeed">
+          <div class="timeline-event">
+            <span class="timeline-bullet">•</span>
+            <span class="timeline-text" id="agentSummaryText">Got it — you're creating a grounded deck for this concept.</span>
+          </div>
+          
+          <details class="timeline-collapsible" open>
+            <summary class="collapsible-summary">
+              <span class="plus-icon">+</span>
+              <span>Gathered context</span>
+            </summary>
+            <div class="collapsible-body" id="agentContextBody">
+              <div class="context-item"><strong>Deck style:</strong> Grounded Classic</div>
+              <div class="context-item"><strong>Business model:</strong> <span id="ctxModel">B2B SaaS</span></div>
+              <div class="context-item"><strong>Evidence sources:</strong> SEC EDGAR & USPTO</div>
+              <div class="context-item"><strong>Slides:</strong> 10 cards</div>
+            </div>
+          </details>
+
+          <div class="timeline-event">
+            <span class="timeline-bullet">•</span>
+            <span class="timeline-text">Formulated verified 10-card outline.</span>
+          </div>
+
+          <details class="timeline-collapsible" open>
+            <summary class="collapsible-summary">
+              <span class="plus-icon">+</span>
+              <span>Wrote outline</span>
+            </summary>
+            <div class="collapsible-body">
+              <div class="context-item">10 structured cards ready for generation.</div>
+            </div>
+          </details>
+
+          <div class="timeline-event">
+            <span class="timeline-bullet">•</span>
+            <span class="timeline-text">Initialized visual layout archetypes.</span>
+          </div>
+        </div>
+
+        <div class="agent-col-footer-input">
+          <input type="text" class="agent-chat-mini-input" id="outlineAgentInput" placeholder="Edit slides, change settings or @mention a source" />
+          <button type="button" class="btn-mini-send" id="btnOutlineAgentSend">
+            <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Col 2: Center Outline Cards List -->
+      <main class="studio-col studio-col-outline">
+        <div class="col-header-row">
+          <span class="col-title" id="outlineCardsCountLabel">Outline · 10 slides</span>
+          <button type="button" class="btn-add-slide-mini" id="btnAddOutlineSlide" title="Add slide card">+ Add Card</button>
+        </div>
+        <div class="outline-cards-scroll-list" id="outlineCardsScrollList">
+          <!-- Dynamically populated 10 slide cards with drag handle and bullets -->
+        </div>
+      </main>
+
+      <!-- Col 3: Right Settings Panel -->
+      <aside class="studio-col studio-col-settings" id="studioColSettings">
+        <div class="col-header-row">
+          <span class="col-title">Settings</span>
+          <button type="button" class="btn-settings-close" id="btnCloseSettingsPanel">✕</button>
+        </div>
+
+        <div class="settings-scroll-content">
+          <!-- Content Settings -->
+          <div class="settings-section">
+            <div class="settings-section-title">
+              <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-layers"/></svg>
+              <span>Content</span>
+            </div>
+            <div class="setting-summary-pill">Presentation · Default · 10 Cards</div>
+          </div>
+
+          <!-- Theme Picker Cards -->
+          <div class="settings-section">
+            <div class="settings-section-title">
+              <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-sun"/></svg>
+              <span>Theme</span>
+            </div>
+            <div class="theme-cards-grid" id="themeCardsGrid">
+              <div class="theme-card-option active" data-theme="dark">
+                <div class="theme-preview-box preview-obsidian">
+                  <div class="preview-title">Title</div>
+                  <div class="preview-sub">Body & link</div>
+                </div>
+                <div class="theme-label">✓ Obsidian Dark</div>
+              </div>
+
+              <div class="theme-card-option" data-theme="light">
+                <div class="theme-preview-box preview-pearl">
+                  <div class="preview-title" style="color:#0f172a;">Title</div>
+                  <div class="preview-sub" style="color:#64748b;">Body & link</div>
+                </div>
+                <div class="theme-label">Pearl Light</div>
+              </div>
+
+              <div class="theme-card-option" data-theme="kraft">
+                <div class="theme-preview-box preview-kraft">
+                  <div class="preview-title" style="color:#292524;">Title</div>
+                  <div class="preview-sub" style="color:#78716c;">Body & link</div>
+                </div>
+                <div class="theme-label">Kraft Paper</div>
+              </div>
+
+              <div class="theme-card-option" data-theme="terminal">
+                <div class="theme-preview-box preview-terminal">
+                  <div class="preview-title" style="color:#34d399;font-family:monospace;">Title</div>
+                  <div class="preview-sub" style="color:#6ee7b7;font-family:monospace;">Body & link</div>
+                </div>
+                <div class="theme-label">Emerald Audit</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Art & Image Archetype -->
+          <div class="settings-section">
+            <div class="settings-section-title">
+              <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-search"/></svg>
+              <span>Image Style</span>
+            </div>
+            <div class="image-styles-grid" id="imageStylesGrid">
+              <button type="button" class="art-style-chip active" data-style="photography">Photo</button>
+              <button type="button" class="art-style-chip" data-style="technical">Technical</button>
+              <button type="button" class="art-style-chip" data-style="financial">Financial</button>
+              <button type="button" class="art-style-chip" data-style="clean">Minimal</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Bottom Floating Action Bar -->
+    <div class="outline-bottom-bar">
+      <div class="bottom-bar-credits">
+        <span class="credits-badge">✓ Audit Ready</span>
+      </div>
+      <div class="bottom-bar-actions">
+        <button type="button" class="btn-bottom-secondary" id="btnPreserveOutline">Preserve</button>
+        <button type="button" class="btn-bottom-secondary" id="btnRefineOutline">Refine</button>
+        <button type="button" class="btn-gamma-generate-master" id="btnGenerateGroundedDeck">
+          <span>Generate Grounded Deck</span>
+          <kbd class="kbd-badge">↵</kbd>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       STAGE 3: LIVE STREAMING GENERATION CANVAS (Gamma Screenshot 5)
+       ========================================================================== -->
+  <div id="liveCanvasStageContainer" class="live-canvas-stage-container hidden">
+    <!-- Top Live Banner -->
+    <div class="live-generation-banner">
+      <div class="banner-pulse-group">
+        <span class="pulse-dot"></span>
+        <span class="banner-text">Grounding in progress: Don't close this tab while SEC / USPTO verification is active.</span>
+      </div>
+      <div class="banner-actions">
+        <button type="button" class="btn-banner-action" id="btnBannerPresent">Present</button>
+        <button type="button" class="btn-banner-action" id="btnBannerToggleAgent">Agent</button>
+      </div>
+    </div>
+
+    <div class="live-canvas-workspace">
+      <!-- Left Thumbnail Rail (Slides being assembled) -->
+      <aside class="live-thumbnail-rail" id="liveThumbnailRail">
+        <div class="rail-header">
+          <span class="rail-title">Slides</span>
+          <span class="rail-counter" id="liveRailCounter">0 / 10</span>
+        </div>
+        <div class="rail-thumbnails-list" id="railThumbnailsList">
+          <!-- Populated in real time as slides assemble -->
+        </div>
+      </aside>
+
+      <!-- Center Live Slide Canvas -->
+      <main class="live-center-canvas" id="liveCenterCanvas">
+        <div class="live-active-card-wrapper" id="liveActiveCardWrapper">
+          <div class="live-card-status-indicator">
+            <span class="live-ai-badge" id="liveAiBadge">
+              <span class="sparkle-circle"></span>
+              <span>AI generating</span>
+            </span>
+          </div>
+
+          <div class="live-card-body-frame" id="liveCardBodyFrame">
+            <h2 class="live-card-title" id="liveCardTitle">Initializing Deck Architecture...</h2>
+            
+            <div class="live-card-content-split">
+              <!-- Live Image Container with Loading Shimmer -->
+              <div class="live-image-container" id="liveImageContainer">
+                <div class="live-image-shimmer" id="liveImageShimmer">
+                  <div class="spinner-circle"></div>
+                </div>
+                <img id="liveSlideImg" class="live-slide-photo hidden" src="" alt="Slide Visual" />
+              </div>
+
+              <!-- Live Streaming Text Area with Typewriter Cursor -->
+              <div class="live-streaming-text-area" id="liveStreamingTextArea">
+                <div id="liveStreamTextContent" class="live-stream-text-content">
+                  Synthesizing grounded claims and financial reconciliation metrics...
+                </div>
+                <span class="typewriter-cursor" id="typewriterCursor"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Agent Activity Checklist Panel -->
+      <aside class="live-agent-panel" id="liveAgentPanel">
+        <div class="live-agent-panel-header">
+          <div class="agent-title-group">
+            <span class="agent-status-dot"></span>
+            <span class="agent-name">Agent</span>
+          </div>
+          <button type="button" class="btn-agent-clear" id="btnLiveAgentClear">↻ Clear</button>
+        </div>
+
+        <div class="live-agent-checklist" id="liveAgentChecklist">
+          <div class="agent-greeting-log">Here I go! Let me get to work.</div>
+          <!-- Live checkmarks dynamically appended -->
+        </div>
+
+        <div class="live-agent-footer">
+          <input type="text" class="live-agent-input" id="liveAgentInput" placeholder="Ask me to edit, create, or style anything" />
+          <button type="button" class="btn-mini-send" id="btnLiveAgentSend">
+            <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </button>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+
+  <!-- ==========================================================================
+       GENERATION WORKFLOW HUD (Live Progress & Transparent Pipeline Steps)
+       ========================================================================== -->
+  <div id="generationWorkflowHud" class="workflow-hud-container hidden" role="region" aria-label="Generation Progress">
+    <div class="workflow-hud-card">
+      <div class="hud-top-row">
+        <div class="hud-stage-badge">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span id="hudStageLabel">INITIALIZING PIPELINE</span>
+        </div>
+        <div class="hud-timer-wrap">
+          <span id="hudTimerText" class="hud-timer">⏱ 0s elapsed</span>
+          <span id="hudEtaText" class="hud-eta">• Estimated ~25s</span>
+        </div>
+      </div>
+
+      <div class="hud-progress-track">
+        <div id="hudProgressBar" class="hud-progress-fill" style="width: 5%;"></div>
+      </div>
+
+      <!-- 5 Visual Stepper Pills -->
+      <div class="hud-stepper-row" id="hudStepperRow">
+        <div class="hud-step-pill active" data-step="1">
+          <span class="step-num-circle">1</span>
+          <span class="step-pill-label">Classify Model</span>
+        </div>
+        <div class="hud-step-pill" data-step="2">
+          <span class="step-num-circle">2</span>
+          <span class="step-pill-label">Systems of Record</span>
+        </div>
+        <div class="hud-step-pill" data-step="3">
+          <span class="step-num-circle">3</span>
+          <span class="step-pill-label">Bottom-Up Math</span>
+        </div>
+        <div class="hud-step-pill" data-step="4">
+          <span class="step-num-circle">4</span>
+          <span class="step-pill-label">Build Visual Cards</span>
+        </div>
+        <div class="hud-step-pill" data-step="5">
+          <span class="step-num-circle">5</span>
+          <span class="step-pill-label">Pre-Mortem Audit</span>
+        </div>
+      </div>
+
+      <!-- Real-time Narration Event Ticker -->
+      <div class="hud-narration-box">
+        <div class="narration-indicator">
+          <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-terminal"/></svg>
+          <span id="hudEventTicker">Screening concept and classifying business archetype...</span>
+        </div>
+        <span id="hudCardsBuiltCount" class="hud-cards-counter">Building visual deck...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       2. THE GAMMA-GRADE VISUAL DECK STUDIO
+       ========================================================================== -->
+  <div id="studioContainer" class="studio-container hidden">
+    <!-- Studio Header & Toolbar -->
+    <div class="studio-header-bar">
+      <div class="studio-meta-group">
+        <button type="button" class="btn-back-landing" id="btnBackToLanding" title="Back to prompt editor">
+          <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+          <span>Idea</span>
+        </button>
+        <span class="studio-divider">/</span>
+        <h2 class="studio-deck-title" id="studioDeckTitle">Enterprise Fintech Reconciliation</h2>
+        <span class="studio-model-badge" id="studioModelBadge">B2B SaaS</span>
+      </div>
+
+      <div class="studio-toolbar-actions">
+        <!-- View Mode Switcher: Document View (Gamma signature) vs 16:9 Slide View -->
+        <div class="view-mode-toggle-pill" role="tablist">
+          <button type="button" class="mode-pill-btn active" id="btnModeDoc" role="tab" aria-selected="true" title="Continuous Document Canvas">
+            <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-layers"/></svg>
+            <span>Document</span>
+          </button>
+          <button type="button" class="mode-pill-btn" id="btnModeSlide" role="tab" aria-selected="false" title="16:9 Single Slide View">
+            <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-keynote"/></svg>
+            <span>Slides</span>
+          </button>
+        </div>
+
+        <button type="button" class="btn-studio-action" id="btnCanvasPresent" title="Fullscreen Presentation Mode (P)">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-keynote"/></svg>
+          <span>Present</span>
+        </button>
+        <button type="button" class="btn-studio-action" id="btnExportDeckJson" title="Export Deck as JSON">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-layers"/></svg>
+          <span>Export</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Gamma Workspace (Dual Layout: Left Sticky Outline Rail + Right Visual Card Stream) -->
+    <div class="gamma-workspace" id="gammaWorkspace">
+      <!-- Left Sticky Outline Rail (Navigation & Completion Status) -->
+      <aside class="gamma-outline-rail" id="gammaOutlineRail" aria-label="Deck Outline">
+        <div class="outline-rail-header">
+          <span class="outline-rail-title">SLIDES OUTLINE</span>
+          <span class="outline-rail-count" id="outlineRailCount">10 CARDS</span>
+        </div>
+        <nav class="outline-nav-list" id="outlineNavList">
+          <!-- 10 outline items dynamically populated -->
+        </nav>
+      </aside>
+
+      <!-- Right Main Visual Cards Stream (Document View) -->
+      <main class="gamma-cards-stream" id="gammaCardsStream" role="main">
+        <!-- Dynamic Gamma visual cards render here -->
+        <div class="cards-stream-list" id="cardsStreamList">
+          <!-- Rendered dynamically by app.js -->
+        </div>
+      </main>
+
+      <!-- Slide Mode View (Single 16:9 Slide Card View) -->
+      <div class="slide-mode-viewport hidden" id="slideModeViewport">
+        <div class="canvas-top-bar">
+          <div class="canvas-slide-meta">
+            <span class="canvas-slide-tracker" id="canvasSlideTracker">SLIDE 1 OF 10</span>
+            <h3 class="canvas-slide-heading" id="canvasSlideHeading">Problem Statement</h3>
+          </div>
+          <div class="canvas-actions">
+            <div class="verification-badge-chip" id="canvasVerificationBadge">
+              <svg class="svg-icon-xs badge-icon-check" aria-hidden="true"><use href="#icon-check-circle"/></svg>
+              <span id="canvasVerificationText">Verified by Evidence Graph</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 16:9 Living Slide Card -->
+        <div class="slide-canvas-viewport">
+          <div class="slide-card-16-9" id="slideCard169">
+            <div class="slide-card-header-bar">
+              <div class="card-kicker-group">
+                <span class="slide-category-kicker" id="slideCardKicker">THE PROBLEM</span>
+                <button type="button" class="inline-strip-trigger hidden" id="inlineStripTrigger" title="Expand inspection strip">
+                  <span class="strip-marker-line" aria-hidden="true"></span>
+                  <span class="strip-marker-text" id="stripMarkerText">Inspect</span>
+                </button>
+              </div>
+
+              <div class="card-controls-group">
+                <button type="button" class="compare-toggle-link" id="btnCompareToggle" title="Compare against ungrounded generic generator">
+                  See the generic version
+                </button>
+                <div class="slide-confidence-ring" id="slideConfidenceRing" title="Slide verification confidence">
+                  <svg class="ring-svg-sm" viewBox="0 0 32 32" width="22" height="22">
+                    <circle class="ring-track-sm" cx="16" cy="16" r="13" fill="none" />
+                    <circle class="ring-value-sm" id="slideRingValue" cx="16" cy="16" r="13" fill="none" stroke-dasharray="0, 100" />
+                  </svg>
+                  <span class="ring-label-sm" id="slideRingLabel">--%</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ambient Status Line -->
+            <div class="card-ambient-status hidden" id="cardAmbientStatus">
+              <span class="status-pulse-dot" aria-hidden="true"></span>
+              <span class="status-text" id="cardAmbientStatusText">Checking comparable companies</span>
+            </div>
+
+            <!-- Card Body: Grounded vs Generic Views -->
+            <div class="slide-card-body" id="slideCardBody">
+              <div class="slide-view-grounded" id="slideViewGrounded">
+                <h2 class="slide-headline" id="slideCardHeadline">Defining the core customer friction</h2>
+                <div class="slide-body-paragraphs" id="slideCardContent">
+                  <p>Analyzing customer workflow inefficiencies and quantifying operational costs...</p>
+                </div>
+                <div class="slide-highlight-card" id="slideCardHighlight">
+                  <div class="highlight-label">GROUNDED METRIC / MARKET SIGNAL</div>
+                  <div class="highlight-value" id="slideCardHighlightValue">Awaiting verified calculation...</div>
+                </div>
+                <div class="slide-claims-row">
+                  <span class="claims-row-label">Claims & Evidence:</span>
+                  <div class="claims-pills-list" id="slideCardClaims"></div>
+                </div>
+              </div>
+
+              <!-- Generic AI Version -->
+              <div class="slide-view-generic hidden" id="slideViewGeneric">
+                <div class="generic-notice-banner">
+                  <span>Generic ungrounded output from standard template tools</span>
+                </div>
+                <h2 class="slide-headline generic" id="genericHeadline">Problem Statement</h2>
+                <div class="slide-body-paragraphs generic" id="genericContent">
+                  <p>Organizations suffer from massive workflow fragmentation, siloed data systems, and inefficient legacy software tooling.</p>
+                </div>
+                <div class="generic-critique-footer">
+                  <span>Notice: lacks concrete buyer ACV, SEC filings, or verifiable competitor benchmarks.</span>
+                </div>
+              </div>
+
+              <!-- Inline Expansion Strip -->
+              <div class="inline-expansion-strip hidden" id="inlineExpansionStrip">
+                <div class="strip-header">
+                  <span class="strip-tag" id="stripTag">PRE-MORTEM HARD QUESTION</span>
+                  <button type="button" class="btn-strip-close" id="btnStripClose" title="Collapse strip">
+                    <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-x"/></svg>
+                  </button>
+                </div>
+                <p class="strip-question-text" id="stripQuestionText">What actually stops someone with more funding from copying this in six months?</p>
+                <div class="strip-input-row hidden" id="stripInputRow">
+                  <input type="text" class="strip-answer-input" id="stripAnswerInput" placeholder="Type your answer to ground this moat..." />
+                  <button type="button" class="btn-strip-send" id="btnStripSend">Update Deck</button>
+                </div>
+                <div class="strip-evidence-detail hidden" id="stripEvidenceDetail">
+                  <div class="evidence-sources-list" id="stripSourcesList"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide Thumbnails Scrubber Rail -->
+        <div class="canvas-scrubber-rail" id="canvasScrubberRail">
+          <button type="button" class="scrub-nav-btn" id="btnScrubPrev" title="Previous Slide (←)">
+            <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+          </button>
+          <div class="scrub-track" id="scrubTrack"></div>
+          <button type="button" class="scrub-nav-btn" id="btnScrubNext" title="Next Slide (→)">
+            <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fixed Bottom Dock (Chat & Conversational Refinement) -->
+    <div class="living-bottom-dock" id="livingBottomDock">
+      <div class="living-dock-inner">
+        <input 
+          type="text" 
+          id="livingDockInput" 
+          class="living-dock-input" 
+          placeholder="Ask for a change, or ask a question about any slide (e.g. 'Add a 3-year pricing ramp on slide 5')..." 
+          autocomplete="off" />
+        <button type="button" id="btnLivingDockSend" class="btn-dock-send" title="Send instruction (Enter)">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  </div>
+
+<!-- ==========================================================================
+       VIEW 2: EVIDENCE & SYSTEMS OF RECORD (Track C Command Station)
+       ========================================================================== -->
+  <div id="viewEvidence" class="app-view-container hidden">
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-eyebrow-pill">
+          <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-shield"/></svg>
+          <span>TRACK C INFRASTRUCTURE · ZERO HALLUCINATION GROUND TRUTH</span>
+        </div>
+        <h2 class="text-display">Systems of Record Command Center</h2>
+        <p class="hero-lead">Verifiable ground truth directly from official public APIs: GitHub public velocity, SEC EDGAR company filings, USPTO patent trends, and Stripe Connect revenue signals.</p>
+      </div>
+    </section>
+
+    <!-- 4 Official Connectors -->
+    <section class="section-container scroll-reveal">
+      <div class="panel-card">
+        <div class="panel-header">
+          <span class="step-num">DATA INFRASTRUCTURE</span>
+          <h3 class="text-h2">Connected Official Data Sources</h3>
+        </div>
+        <p class="panel-sub">All connectors utilize official, free, live public endpoints without third-party scraping or terms of service gray zones.</p>
+        
+        <div class="evidence-grid">
+          <div class="evidence-card">
+            <div class="evidence-card-header">
+              <span class="evidence-card-title">
+                <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-terminal"/></svg>
+                <span>GitHub Public API</span>
+              </span>
+              <span class="evidence-status-pill">Active Live</span>
+            </div>
+            <p class="text-body text-secondary" style="font-size: 13px;">Extracts real commit cadence, release frequency, stargazer velocity, and contributor count directly from api.github.com.</p>
+            <div style="margin-top: var(--space-3);">
+              <button type="button" class="btn-neutral btn-sm" id="btnQuickTestGithub">Test pallets/flask</button>
+            </div>
+          </div>
+
+          <div class="evidence-card">
+            <div class="evidence-card-header">
+              <span class="evidence-card-title">
+                <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-layers"/></svg>
+                <span>SEC EDGAR EFTS</span>
+              </span>
+              <span class="evidence-status-pill">Active Live</span>
+            </div>
+            <p class="text-body text-secondary" style="font-size: 13px;">Full-text search across official 10-K, 10-Q, and S-1 filings directly from eftsearch.sec.gov for audited competitor financials.</p>
+            <div style="margin-top: var(--space-3);">
+              <button type="button" class="btn-neutral btn-sm" id="btnQuickTestSec">Test Snowflake Comps</button>
+            </div>
+          </div>
+
+          <div class="evidence-card">
+            <div class="evidence-card-header">
+              <span class="evidence-card-title">
+                <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-crosshair"/></svg>
+                <span>USPTO PatentsView</span>
+              </span>
+              <span class="evidence-status-pill">Active Live</span>
+            </div>
+            <p class="text-body text-secondary" style="font-size: 13px;">Queries official USPTO PatentsView endpoint to verify technology category momentum and patent filing acceleration.</p>
+            <div style="margin-top: var(--space-3);">
+              <button type="button" class="btn-neutral btn-sm" id="btnQuickTestPatent">Test Superconductor</button>
+            </div>
+          </div>
+
+          <div class="evidence-card">
+            <div class="evidence-card-header">
+              <span class="evidence-card-title">
+                <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-shield"/></svg>
+                <span>Stripe Connect</span>
+              </span>
+              <span class="evidence-status-pill">OAuth Ready</span>
+            </div>
+            <p class="text-body text-secondary" style="font-size: 13px;">Read-only gross charge volume and MRR verification. Complete OAuth architecture wired; requires founder opt-in.</p>
+            <div style="margin-top: var(--space-3);">
+              <span class="text-micro font-mono text-tertiary">Read-Only Scoped</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Live System-of-Record Check Form -->
+    <section class="section-container scroll-reveal" id="sorCheckSection">
+      <div class="panel-card">
+        <div class="panel-header">
+          <span class="step-num">LIVE VERIFICATION</span>
+          <h3 class="text-h2">Test Live System-of-Record Connectors</h3>
+        </div>
+        <p class="panel-sub">Run real-time pre-flight queries across SEC EDGAR, GitHub API, USPTO PatentsView, and Stripe Connect.</p>
+        <div class="sor-grid">
+          <div class="sor-field">
+            <label for="sorRepoInput" class="sor-label">
+              <span>GitHub Public Repository</span>
+              <span class="sor-sub">owner/repo (commits & releases)</span>
+            </label>
+            <input type="text" id="sorRepoInput" class="sor-input font-mono" placeholder="e.g. pallets/flask" />
+          </div>
+          <div class="sor-field">
+            <label for="sorCompInput" class="sor-label">
+              <span>SEC EDGAR Competitor Comps</span>
+              <span class="sor-sub">Public filer 10-K/10-Q filings</span>
+            </label>
+            <input type="text" id="sorCompInput" class="sor-input font-mono" placeholder="e.g. Snowflake" />
+          </div>
+          <div class="sor-field">
+            <label for="sorPatentInput" class="sor-label">
+              <span>USPTO Deep-Tech Category</span>
+              <span class="sor-sub">PatentsView momentum</span>
+            </label>
+            <input type="text" id="sorPatentInput" class="sor-input font-mono" placeholder="e.g. superconductor" />
+          </div>
+          <div class="sor-field">
+            <label for="sorStripeToggle" class="sor-label">
+              <span>Stripe Connect Signal</span>
+              <span class="sor-sub">Verified gross charge volume</span>
+            </label>
+            <div class="sor-stripe-row">
+              <label class="switch-wrap">
+                <input type="checkbox" id="sorStripeToggle" />
+                <span class="switch-slider"></span>
+              </label>
+              <span id="sorStripeStatus" class="text-micro text-secondary font-mono">Simulate Opt-In</span>
+            </div>
+          </div>
+        </div>
+        <div class="sor-footer" style="margin-top: var(--space-4); display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap;">
+          <button type="button" id="btnCheckSoR" class="btn-action">
+            <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-search"/></svg>
+            <span>Live System-of-Record Check</span>
+          </button>
+          <div id="sorPreviewPills" class="sor-pills-row"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Evidence Graph Weighting Rules -->
+    <section class="section-container scroll-reveal">
+      <div class="panel-card">
+        <div class="panel-header">
+          <span class="step-num">EVIDENCE ENGINE</span>
+          <h3 class="text-h2">Mathematical Weighting & Independence Matrix</h3>
+        </div>
+        <p class="panel-sub">Every claim in the pitch deck is bound to structured EvidenceItem objects. Scores are computed from real arithmetic, not LLM self-evaluations.</p>
+        
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th>Tier Classification</th>
+              <th>Source Type</th>
+              <th>Base Weight</th>
+              <th>Independence Discounting</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong class="text-primary">System of Record</strong></td>
+              <td>SEC EDGAR, GitHub API, USPTO PatentsView, Stripe Connect</td>
+              <td><span class="font-mono text-primary font-medium">1.0 (100%)</span></td>
+              <td>Full weight; immune to platform bias</td>
+            </tr>
+            <tr>
+              <td><strong class="text-primary">Crowd Corroboration</strong></td>
+              <td>Reddit, customer review forums, public discussions</td>
+              <td><span class="font-mono text-primary font-medium">0.5 - 0.7</span></td>
+              <td>Discounted to 0.4 if single-platform; 0.7 if cross-platform corroborated</td>
+            </tr>
+            <tr>
+              <td><strong class="text-primary">Founder Stated</strong></td>
+              <td>Raw text from pitch prompt or intake interview answers</td>
+              <td><span class="font-mono text-primary font-medium">0.1 - 0.3</span></td>
+              <td>Held as unearned claim until validated by independent external evidence</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+
+<!-- ==========================================================================
+       VIEW 3: AUDIT & TELEMETRY (Diagnostics & Benchmarks)
+       ========================================================================== -->
+  <div id="viewTelemetry" class="app-view-container hidden">
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="hero-eyebrow-pill">
+          <svg class="svg-icon-xs" aria-hidden="true"><use href="#icon-terminal"/></svg>
+          <span>AUDITABILITY & OBSERVABILITY · PRODUCTION TELEMETRY</span>
+        </div>
+        <h2 class="text-display">Pipeline Diagnostics & Comparative Audit</h2>
+        <p class="hero-lead">Inspect end-to-end multi-agent execution traces, self-healing circuit breakers, comparative benchmarks against hallucinating LLMs, and real operating costs.</p>
+      </div>
+    </section>
+
+    <!-- Split-Screen Comparative Demo Section -->
+    <section id="splitScreenSection" class="section-container scroll-reveal" aria-labelledby="splitDemoHeading">
+      <div class="panel-card">
+        <div class="panel-header">
+          <span class="step-num">COMPARATIVE AUDIT</span>
+          <h3 id="splitDemoHeading" class="text-h2">Split-Screen Benchmark: Copilot Slop vs Calibrated System</h3>
+        </div>
+        <p class="panel-sub">Why calibrated refusal matters: Generic LLMs fabricate ungrounded numbers to sound confident. This system attaches structured Evidence Graphs and refuses unearned claims.</p>
+        
+        <div class="split-screen-grid">
+          <!-- Generic AI Generation -->
+          <div class="split-panel split-panel-bad">
+            <div class="split-header">
+              <span class="split-tag-bad">Generic AI Generation (Copilot Failure Mode)</span>
+              <span class="text-micro font-mono text-secondary">Slide 4: Market Size</span>
+            </div>
+            <h4 class="text-h2">"A massive $84B Enterprise AI Opportunity"</h4>
+            <p class="text-body text-secondary">"The market for AI-driven workflows is projected to grow from $22B to $84B by 2028 at a 31% CAGR. Capturing just 1% yields $840M ARR."</p>
+            <div class="split-callout-bad">
+              <strong>Unchecked Hallucination:</strong> Plausible-sounding top-down multiplier fabricated from memory. Zero verifiable evidence items attached.
+            </div>
+          </div>
+
+          <!-- Calibrated System -->
+          <div class="split-panel split-panel-good">
+            <div class="split-header">
+              <span class="split-tag-good">This System (Evidence-Graphed)</span>
+              <span class="text-micro font-mono text-secondary">Slide 4: Market Bottom-Up</span>
+            </div>
+            <div class="confidence-dial-container">
+              <div class="confidence-dial-wrap">
+                <svg viewBox="0 0 100 100" class="confidence-dial-svg">
+                  <circle cx="50" cy="50" r="42" class="confidence-dial-bg" />
+                  <circle cx="50" cy="50" r="42" class="confidence-dial-bar" style="stroke-dasharray: 205.8 263.9;" />
+                </svg>
+                <span class="confidence-dial-score">78</span>
+              </div>
+              <div class="confidence-dial-meta">
+                <span class="confidence-dial-title">COMPUTED CONFIDENCE: 78%</span>
+                <span class="confidence-dial-desc">Calculated arithmetic from independent evidence weights</span>
+              </div>
+            </div>
+            <p class="text-body text-primary">"Bottom-up arithmetic: 12,400 verified target accounts × $24,000 ACV = $297.6M addressable pipeline. Grounded via public census & SEC filings."</p>
+            <div class="split-callout-good">
+              <strong>Calibrated Standard:</strong> Every fact carries an EvidenceItem with platform independence discounting.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7-Stage Multi-Agent Architecture -->
+    <section class="section-container scroll-reveal">
+      <div class="panel-card">
+        <div class="panel-header">
+          <span class="step-num">PIPELINE TRACE</span>
+          <h3 class="text-h2">7-Stage ADK Multi-Agent Execution Flow</h3>
+        </div>
+        <p class="panel-sub">Each stage is deliberately isolated with typed Pydantic contracts and automated self-healing retries.</p>
+
+        <div class="arch-flow-grid">
+          <div class="arch-step-card">
+            <div class="arch-step-num">STAGE 0</div>
+            <div class="arch-step-title">Injection Screening</div>
+            <div class="arch-step-desc">Deterministic heuristic + LLM classifier defense against prompt manipulation and jailbreaks.</div>
+          </div>
+          <div class="arch-step-card">
+            <div class="arch-step-num">STAGE 1</div>
+            <div class="arch-step-title">Intake Agent</div>
+            <div class="arch-step-desc">Identifies critical vulnerabilities and conducts structured founder earned-insight interview.</div>
+          </div>
+          <div class="arch-step-card">
+            <div class="arch-step-num">STAGE 2</div>
+            <div class="arch-step-title">Draft Agent</div>
+            <div class="arch-step-desc">Generates 10-slide structured deck adhering strictly to the typed slide schema.</div>
+          </div>
+          <div class="arch-step-card">
+            <div class="arch-step-num">STAGE 3</div>
+            <div class="arch-step-title">Grounding Agent</div>
+            <div class="arch-step-desc">Resolves market size gaps via Google Search API and bottom-up arithmetic.</div>
+          </div>
+          <div class="arch-step-card">
+            <div class="arch-step-num">STAGE 3b</div>
+            <div class="arch-step-title">Incumbent Pain Mining</div>
+            <div class="arch-step-desc">Mines authentic crowd frustrations across public forums using plain language queries.</div>
+          </div>
+          <div class="arch-step-card">
+            <div class="arch-step-num">STAGE 4 & 5</div>
+            <div class="arch-step-title">Critique & Refine</div>
+            <div class="arch-step-desc">Evaluator verdicts (pass / revise / insufficient_input) with circuit-breaker self-healing.</div>
+          </div>
+          <div class="arch-step-card">
+            <div class="arch-step-num">STAGE 6</div>
+            <div class="arch-step-title">Pre-Mortem Agent</div>
+            <div class="arch-step-desc">Synthesizes 5 hardest investor questions cross-referencing deck tensions.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Raw JSON Trace Viewer -->
+    <section class="section-container scroll-reveal">
+      <div class="panel-card">
+        <div class="panel-header">
+          <span class="step-num">RAW TRACE</span>
+          <h3 class="text-h2">Execution Trace & JSON Export</h3>
+        </div>
+        <p class="panel-sub">Inspect the complete structured payload returned by the pipeline, including step latencies and token usage.</p>
+        <div class="btn-row" style="margin-bottom: var(--space-2);">
+          <button type="button" class="btn-neutral" id="btnExportJsonTelemetry">
+            <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-layers"/></svg>
+            <span>Export Full JSON Run Trace</span>
+          </button>
+        </div>
+        <pre class="trace-code-box" id="telemetryRawTrace">Run a pitch pressure test to inspect live structured telemetry JSON here...</pre>
+      </div>
+    </section>
+  </div>
+
+
+  <!-- ==========================================================================
+       4. ENGINE ROOM INSPECTOR DRAWER (Slide-out panel for technical verification)
+       ========================================================================== -->
+  <div id="engineDrawer" class="engine-drawer hidden" role="dialog" aria-modal="true" aria-label="Engine Room Telemetry">
+    <div class="engine-drawer-backdrop" id="engineDrawerBackdrop"></div>
+    <div class="engine-drawer-panel">
+      <div class="drawer-header">
+        <div class="drawer-header-title">
+          <svg class="svg-icon-sm text-accent-validated" aria-hidden="true"><use href="#icon-shield"/></svg>
+          <span>Engine Room • Track C Systems of Record</span>
+        </div>
+        <button type="button" class="btn-drawer-close" id="btnEngineDrawerClose" title="Close Drawer">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-x"/></svg>
+        </button>
+      </div>
+
+      <div class="drawer-tabs">
+        <button type="button" class="drawer-tab active" data-target="drawerTabSoR">Systems of Record</button>
+        <button type="button" class="drawer-tab" data-target="drawerTabTelemetry">Telemetry</button>
+        <button type="button" class="drawer-tab" data-target="drawerTabRaw">Raw Trace JSON</button>
+      </div>
+
+      <div class="drawer-content">
+        <!-- Tab 1: SoR Connectors -->
+        <div id="drawerTabSoR" class="drawer-pane active">
+          <p class="drawer-sub">Official verification APIs configured in the background pipeline:</p>
+          <div class="sor-status-grid">
+            <div class="sor-card">
+              <div class="sor-card-top">
+                <span class="sor-tag">SEC EDGAR</span>
+                <span class="status-indicator status-pass"></span>
+              </div>
+              <div class="sor-card-title">10-K / 10-Q Public Comps</div>
+              <div class="sor-card-desc">Searches public filings for real revenue, gross margins, and S-1 customer metrics.</div>
+            </div>
+            <div class="sor-card">
+              <div class="sor-card-top">
+                <span class="sor-tag">USPTO</span>
+                <span class="status-indicator status-pass"></span>
+              </div>
+              <div class="sor-card-title">PatentsView Momentum</div>
+              <div class="sor-card-desc">Verifies deep-tech novel claims against published patent claims and velocity.</div>
+            </div>
+            <div class="sor-card">
+              <div class="sor-card-top">
+                <span class="sor-tag">GitHub API</span>
+                <span class="status-indicator status-pass"></span>
+              </div>
+              <div class="sor-card-title">Developer Velocity</div>
+              <div class="sor-card-desc">Measures commit cadence, contributors, and releases for technical traction.</div>
+            </div>
+            <div class="sor-card">
+              <div class="sor-card-top">
+                <span class="sor-tag">Stripe Connect</span>
+                <span class="status-indicator status-neutral"></span>
+              </div>
+              <div class="sor-card-title">Gross Charge Volume</div>
+              <div class="sor-card-desc">Founder opt-in token verification of real trailing charges.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Telemetry -->
+        <div id="drawerTabTelemetry" class="drawer-pane">
+          <div class="telemetry-stats-row">
+            <div class="stat-box">
+              <span class="stat-label">Total Latency</span>
+              <span class="stat-val" id="drawerLatency">0.00s</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Critique Loops</span>
+              <span class="stat-val" id="drawerPasses">0</span>
+            </div>
+            <div class="stat-box">
+              <span class="stat-label">Defensibility Gaps</span>
+              <span class="stat-val" id="drawerGaps">0</span>
+            </div>
+          </div>
+          <div class="stages-flow-list" id="drawerStagesList">
+            <!-- Stage cards -->
+          </div>
+        </div>
+
+        <!-- Tab 3: Raw JSON -->
+        <div id="drawerTabRaw" class="drawer-pane">
+          <pre class="trace-code-box" id="drawerRawJson">Run a pitch in the Omnibox to inspect complete structured pipeline telemetry JSON.</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Command Palette (Cmd+K) -->
+  <div id="commandPaletteModal" class="palette-backdrop" role="dialog" aria-modal="true" aria-label="Command palette">
+    <div class="palette-modal">
+      <div class="palette-input-row">
+        <svg class="svg-icon text-secondary" aria-hidden="true"><use href="#icon-search"/></svg>
+        <input id="paletteInput" class="palette-input" placeholder="Jump to a slide, toggle present mode, export JSON..." autocomplete="off">
+        <kbd class="kbd-badge">ESC</kbd>
+      </div>
+      <ul id="paletteOptionsList" class="palette-list" role="listbox">
+        <!-- Rendered dynamically -->
+      </ul>
+      <div class="palette-footer">
+        <span><kbd class="kbd-badge">↑↓</kbd> to navigate</span>
+        <span><kbd class="kbd-badge">↵</kbd> to select</span>
+        <span><kbd class="kbd-badge">ESC</kbd> to dismiss</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       PRESENT MODE — Full-screen slide carousel (keyboard nav ← →)
+       =================================================================== -->
+  <div id="presentModeOverlay" class="present-overlay hidden" role="dialog" aria-modal="true" aria-label="Presentation mode">
+    <div class="present-chrome">
+      <div class="present-meta">
+        <span class="present-title" id="presentTitle">Deck Presentation</span>
+        <span class="present-counter" id="presentCounter">1 / 10</span>
+      </div>
+      <div class="present-controls">
+        <button class="btn-present-nav" id="btnPresentPrev" title="Previous slide (←)">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-arrow-left"/></svg>
+        </button>
+        <button class="btn-present-nav" id="btnPresentNext" title="Next slide (→)">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </button>
+        <button class="btn-present-exit" id="btnPresentExit" title="Exit presentation (Esc)">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-x"/></svg>
+          <span>Exit</span>
+        </button>
+      </div>
+    </div>
+    <div class="present-slide-area" id="presentSlideArea">
+      <!-- Populated dynamically -->
+    </div>
+    <div class="present-thumbnail-strip" id="presentThumbnailStrip">
+      <!-- Slide thumbnails -->
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       HISTORY SIDEBAR — Past decks from Firestore pitchdeck db
+       =================================================================== -->
+  <div id="historySidebar" class="history-sidebar" role="dialog" aria-label="Deck history">
+    <div class="history-sidebar-header">
+      <span class="history-sidebar-title">Your Decks</span>
+      <button class="btn-history-close" id="btnHistoryClose" title="Close history">
+        <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-x"/></svg>
+      </button>
+    </div>
+    <div class="history-sidebar-body" id="historySidebarBody">
+      <div class="history-empty-state" id="historyEmptyState">
+        <p>No saved decks yet.</p>
+        <p class="history-hint">Generate a deck and it will be saved here automatically.</p>
+      </div>
+      <div class="history-items-list" id="historyItemsList" style="display:none">
+        <!-- Populated dynamically -->
+      </div>
+    </div>
+    <div class="history-sidebar-footer">
+      <button class="btn-history-action" id="btnHistoryNew" title="Start a new deck">
+        <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-plus"/></svg>
+        <span>New Deck</span>
+      </button>
+    </div>
+  </div>
+  <div class="history-sidebar-backdrop hidden" id="historySidebarBackdrop"></div>
+
+  <!-- ===================================================================
+       CONTEXT EDIT PANEL — Slides right in when a card is clicked
+       Gamma-style: contextual per-slide editing
+       =================================================================== -->
+  <div id="contextEditPanel" class="context-edit-panel" role="complementary" aria-label="Slide editor">
+    <div class="context-panel-header">
+      <div class="context-panel-meta">
+        <span class="context-panel-num" id="contextPanelNum">Slide 1</span>
+        <span class="context-panel-title" id="contextPanelTitle">Overview</span>
+      </div>
+      <div class="context-panel-badges">
+        <span class="context-confidence-badge" id="contextConfidenceBadge">94%</span>
+        <button class="btn-context-close" id="btnContextClose" title="Close editor">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-x"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="context-panel-body" id="contextPanelBody">
+      <!-- Claims evidence chain -->
+      <div class="context-claims-section" id="contextClaimsSection">
+        <div class="context-section-label">GROUNDED CLAIMS</div>
+        <div class="context-claims-list" id="contextClaimsList"></div>
+      </div>
+
+      <!-- SoR sources for this slide -->
+      <div class="context-sor-section" id="contextSorSection">
+        <div class="context-section-label">VERIFICATION SOURCES</div>
+        <div class="context-sor-list" id="contextSorList"></div>
+      </div>
+    </div>
+
+    <div class="context-panel-footer">
+      <div class="context-edit-row">
+        <input
+          type="text"
+          id="contextEditInput"
+          class="context-edit-input"
+          placeholder="Edit this slide (e.g. 'Add 3-year revenue ramp', 'Strengthen the moat argument')..."
+          autocomplete="off" />
+        <button type="button" id="btnContextEditSend" class="btn-context-send" title="Apply edit">
+          <svg class="svg-icon-sm" aria-hidden="true"><use href="#icon-arrow-right"/></svg>
+        </button>
+      </div>
+      <div class="context-edit-status" id="contextEditStatus"></div>
+    </div>
+  </div>
+  <div class="context-panel-backdrop hidden" id="contextPanelBackdrop"></div>
+
+  <!-- Global loading overlay for major transitions -->
+  <div id="globalLoadingOverlay" class="global-loading hidden">
+    <div class="global-loading-content">
+      <div class="loading-spinner-ring"></div>
+      <div class="loading-message" id="globalLoadingMessage">Processing...</div>
+    </div>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
