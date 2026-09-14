@@ -577,15 +577,20 @@
        ========================================================================== -->
   <div id="liveCanvasStageContainer" class="live-canvas-stage-container hidden">
     <!-- Top Live Banner -->
-    <div class="live-generation-banner">
+    <div class="live-generation-banner" id="liveGenBanner">
       <div class="banner-pulse-group">
-        <span class="pulse-dot"></span>
-        <span class="banner-text">Grounding in progress: Don't close this tab while SEC / USPTO verification is active.</span>
+        <span class="pulse-dot" id="liveBannerDot"></span>
+        <span class="banner-text" id="liveBannerText">Grounding in progress: Don't close this tab while SEC / USPTO verification is active.</span>
       </div>
       <div class="banner-actions">
         <button type="button" class="btn-banner-action" id="btnBannerPresent">Present</button>
+        <button type="button" class="btn-banner-action" id="btnBannerExport">Export</button>
+        <button type="button" class="btn-banner-action" id="btnBannerOpenStudio">Studio View</button>
         <button type="button" class="btn-banner-action" id="btnBannerToggleAgent">Agent</button>
       </div>
+    </div>
+    <div class="live-progress-bar-wrap">
+      <div class="live-progress-bar-fill" id="liveProgressBarFill"></div>
     </div>
 
     <div class="live-canvas-workspace">

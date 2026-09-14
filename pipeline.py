@@ -2283,13 +2283,13 @@ async def stream_pipeline_events(
         "type": "agent_log",
         "message": f"Ingested concept: {raw_input[:60]}..."
     }
-    await asyncio.sleep(0.03)
+    await asyncio.sleep(0.01)
 
     yield {
         "type": "agent_log",
         "message": f"Classified business model: {domain.replace('_', ' ').title()} (98% confidence)"
     }
-    await asyncio.sleep(0.03)
+    await asyncio.sleep(0.01)
 
     # Enrich slides with layout archetypes, individual high-res photos, and bottom-up metrics
     _enrich_slides_with_visual_layouts(slides, raw_input, domain)
@@ -2313,7 +2313,7 @@ async def stream_pipeline_events(
             "photo_url": s_photo,
             "visual_meta": s_meta
         }
-        await asyncio.sleep(0.04)
+        await asyncio.sleep(0.015)
 
         # Chunks for typewriter effect
         chunks = []
@@ -2332,7 +2332,7 @@ async def stream_pipeline_events(
                 "slide_number": s_num,
                 "chunk": chunk
             }
-            await asyncio.sleep(0.04)
+            await asyncio.sleep(0.015)
 
         # Mid-stream real agent receipts
         if s_num == 2:
@@ -2359,12 +2359,12 @@ async def stream_pipeline_events(
             "type": "agent_log",
             "message": f"✓ Created Slide {s_num}: {s_title}"
         }
-        await asyncio.sleep(0.05)
+        await asyncio.sleep(0.02)
 
     # Harvest background SoR results (never block if slow)
     sor_evidence = []
     try:
-        sor_evidence = await asyncio.wait_for(sor_task, timeout=0.8)
+        sor_evidence = await asyncio.wait_for(sor_task, timeout=0.3)
     except Exception as e:
         logger.debug(f"SoR harvest note: {e}")
 

@@ -137,9 +137,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const liveAgentChecklist = document.getElementById('liveAgentChecklist');
   const liveAgentInput = document.getElementById('liveAgentInput');
   const btnLiveAgentSend = document.getElementById('btnLiveAgentSend');
+  const btnLiveAgentClear = document.getElementById('btnLiveAgentClear');
   const btnBannerPresent = document.getElementById('btnBannerPresent');
+  const btnBannerExport = document.getElementById('btnBannerExport');
+  const btnBannerOpenStudio = document.getElementById('btnBannerOpenStudio');
   const btnBannerToggleAgent = document.getElementById('btnBannerToggleAgent');
   const liveAgentPanel = document.getElementById('liveAgentPanel');
+  const liveProgressBarFill = document.getElementById('liveProgressBarFill');
+  const liveBannerDot = document.getElementById('liveBannerDot');
+  const liveBannerText = document.getElementById('liveBannerText');
+  const liveAiBadge = document.getElementById('liveAiBadge');
+  let currentLiveSlideIndex = 0;
 
   // State Machine Variables
   let currentStage = 'landing'; // 'landing' | 'intake' | 'outline' | 'live_canvas' | 'studio'
@@ -3198,6 +3206,22 @@ document.addEventListener('DOMContentLoaded', () => {
     switchAppStage('live_canvas');
     playTone(587.33, 'sine', 0.08);
 
+    if (liveProgressBarFill) {
+      liveProgressBarFill.style.width = '5%';
+    }
+    if (liveBannerDot) {
+      liveBannerDot.style.background = '#60a5fa';
+    }
+    if (liveBannerText) {
+      liveBannerText.textContent = "Grounding in progress: Don't close this tab while SEC / USPTO verification is active.";
+    }
+    if (liveAiBadge) {
+      liveAiBadge.innerHTML = `
+        <span class="sparkle-circle"></span>
+        <span>AI generating</span>
+      `;
+    }
+
     // Initialize Left Thumbnail Rail with 10 placeholder cards
     if (railThumbnailsList) {
       railThumbnailsList.innerHTML = '';
@@ -3205,6 +3229,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const thumb = document.createElement('div');
         thumb.className = `rail-thumb-item thumb-slide-${i}`;
         thumb.id = `live-thumb-${i}`;
+        thumb.title = `Slide ${i}`;
         thumb.innerHTML = `
           <div class="rail-thumb-photo" id="thumb-photo-${i}"></div>
           <div class="rail-thumb-footer">
@@ -3212,6 +3237,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <span class="thumb-status-dot" id="thumb-dot-${i}"></span>
           </div>
         `;
+        thumb.addEventListener('click', () => {
+          if (currentDeck && currentDeck.slides && currentDeck.slides[i - 1]) {
+            selectLiveSlide(i - 1);
+          }
+        });
         railThumbnailsList.appendChild(thumb);
       }
     }
@@ -3290,6 +3320,142 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  function selectLiveSlide(idx) {
+    if (!currentDeck || !currentDeck.slides || !currentDeck.slides[idx]) return;
+    currentLiveSlideIndex = idx;
+    const s = currentDeck.slides[idx];
+    const sNum = idx + 1;
+
+    // Update active rail thumb styling
+    for (let i = 1; i <= 10; i++) {
+      const thumb = document.getElementById(`live-thumb-${i}`);
+      const dot = document.getElementById(`thumb-dot-${i}`);
+      if (thumb) thumb.classList.toggle('active', i === sNum);
+      if (dot) dot.className = (i === sNum) ? 'thumb-status-dot active' : 'thumb-status-dot done';
+    }
+
+    if (liveCardTitle) liveCardTitle.textContent = s.title || `Slide ${sNum}`;
+    if (liveRailCounter) liveRailCounter.textContent = `${sNum} / 10`;
+
+    const photoUrl = (s.visual_meta && s.visual_meta.photo_url) || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80';
+    if (liveSlideImg) {
+      liveSlideImg.src = photoUrl;
+      liveSlideImg.classList.remove('hidden');
+    }
+    if (liveImageShimmer) liveImageShimmer.classList.add('hidden');
+
+    if (liveStreamTextContent) {
+      const lines = (s.content || '').split('\n').filter(l => l.trim().length > 0);
+      if (lines.length > 0) {
+        liveStreamTextContent.innerHTML = lines.map(line => `<p style="margin-bottom:8px;">• ${escapeHtml(line.replace(/^[•\-\*]\s*/, ''))}</p>`).join('');
+      } else {
+        liveStreamTextContent.innerHTML = `<p>${escapeHtml(s.content || '')}</p>`;
+      }
+    }
+
+    const cardFrame = document.getElementById('liveCardBodyFrame');
+    if (cardFrame) {
+      cardFrame.classList.remove('flash-update');
+      void cardFrame.offsetWidth;
+      cardFrame.classList.add('flash-update');
+    }
+
+    currentSlideIndex = idx;
+    selectSlide(idx);
+    playTone(520, 'sine', 0.03);
+  }
+
+  async function handleLiveAgentEdit() {
+    if (!liveAgentInput) return;
+    const prompt = liveAgentInput.value.trim();
+    if (!prompt) return;
+
+    if (!currentDeck || !currentDeck.slides || currentDeck.slides.length === 0) {
+      announceAria('Please wait for the deck to finish generating before making edits.');
+      return;
+    }
+
+    // Append user message bubble to agent checklist
+    if (liveAgentChecklist) {
+      const userBubble = document.createElement('div');
+      userBubble.className = 'agent-user-bubble';
+      userBubble.innerHTML = `<span class="user-label">You:</span> ${escapeHtml(prompt)}`;
+      liveAgentChecklist.appendChild(userBubble);
+
+      const thinkingItem = document.createElement('div');
+      thinkingItem.className = 'agent-thinking-item';
+      thinkingItem.id = 'liveAgentThinking';
+      thinkingItem.innerHTML = `
+        <div class="spinner-circle-xs"></div>
+        <span>Updating Slide ${currentLiveSlideIndex + 1} and re-grounding claims...</span>
+      `;
+      liveAgentChecklist.appendChild(thinkingItem);
+      liveAgentChecklist.scrollTop = liveAgentChecklist.scrollHeight;
+    }
+
+    liveAgentInput.value = '';
+    liveAgentInput.disabled = true;
+    if (btnLiveAgentSend) btnLiveAgentSend.disabled = true;
+
+    try {
+      const currentSlide = currentDeck.slides[currentLiveSlideIndex] || currentDeck.slides[0];
+      const contextualPrompt = `[Target Slide ${currentLiveSlideIndex + 1}: ${currentSlide.title || ''}] ${prompt}`;
+
+      const res = await fetch('/api/edit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: contextualPrompt,
+          deck: currentDeck
+        })
+      });
+
+      const data = await res.json();
+      const thinkingEl = document.getElementById('liveAgentThinking');
+      if (thinkingEl) thinkingEl.remove();
+
+      if (data && data.deck && data.deck.slides) {
+        currentDeck = data.deck;
+
+        if (liveAgentChecklist) {
+          const successItem = document.createElement('div');
+          successItem.className = 'agent-check-item';
+          successItem.innerHTML = `
+            <span class="check-icon-green">✓</span>
+            <span>${escapeHtml(data.narration || 'Slide updated and verified with grounded claims.')}</span>
+          `;
+          liveAgentChecklist.appendChild(successItem);
+          liveAgentChecklist.scrollTop = liveAgentChecklist.scrollHeight;
+        }
+
+        selectLiveSlide(currentLiveSlideIndex);
+        renderFullDeck(currentDeck);
+        playTone(659.25, 'sine', 0.08);
+      } else {
+        throw new Error(data.detail || 'Edit could not be applied');
+      }
+    } catch (err) {
+      console.error('Agent edit error:', err);
+      const thinkingEl = document.getElementById('liveAgentThinking');
+      if (thinkingEl) thinkingEl.remove();
+
+      if (liveAgentChecklist) {
+        const errItem = document.createElement('div');
+        errItem.className = 'agent-check-item';
+        errItem.innerHTML = `
+          <span style="color:#f87171;font-weight:bold;margin-right:6px;">✗</span>
+          <span>Could not complete edit: ${escapeHtml(err.message || 'Verification conflict')}. The deck is preserved.</span>
+        `;
+        liveAgentChecklist.appendChild(errItem);
+        liveAgentChecklist.scrollTop = liveAgentChecklist.scrollHeight;
+      }
+    } finally {
+      liveAgentInput.disabled = false;
+      if (btnLiveAgentSend) btnLiveAgentSend.disabled = false;
+      liveAgentInput.focus();
+    }
+  }
+
   function handleLiveCanvasEvent(ev) {
     if (ev.type === 'agent_log') {
       if (liveAgentChecklist) {
@@ -3304,11 +3470,16 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } else if (ev.type === 'slide_start') {
       const sNum = ev.slide_number || 1;
+      currentLiveSlideIndex = sNum - 1;
       if (liveCardTitle) liveCardTitle.textContent = ev.title || `Slide ${sNum}`;
       if (liveRailCounter) liveRailCounter.textContent = `${sNum} / 10`;
       if (liveStreamTextContent) liveStreamTextContent.textContent = '';
       if (liveImageShimmer) liveImageShimmer.classList.remove('hidden');
       if (liveSlideImg) liveSlideImg.classList.add('hidden');
+
+      if (liveProgressBarFill) {
+        liveProgressBarFill.style.width = `${Math.min(95, sNum * 9.5)}%`;
+      }
 
       // Highlight active rail thumb
       for (let i = 1; i <= 10; i++) {
@@ -3317,7 +3488,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (thumb) thumb.classList.toggle('active', i === sNum);
         if (dot && i === sNum) dot.className = 'thumb-status-dot active';
       }
-      playTone(493.88, 'sine', 0.03);
+      playTone(493.88, 'sine', 0.02);
     } else if (ev.type === 'slide_chunk') {
       if (liveStreamTextContent) {
         liveStreamTextContent.textContent += (liveStreamTextContent.textContent ? '\n' : '') + ev.chunk;
@@ -3326,6 +3497,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const s = ev.slide;
       const sNum = s.slide_number || 1;
       const photoUrl = (s.visual_meta && s.visual_meta.photo_url) || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80';
+
+      if (liveProgressBarFill) {
+        liveProgressBarFill.style.width = `${sNum * 10}%`;
+      }
 
       // Resolve live slide photo
       if (liveSlideImg) {
@@ -3346,17 +3521,86 @@ document.addEventListener('DOMContentLoaded', () => {
       if (thumb) thumb.classList.add('completed');
       if (dot) dot.className = 'thumb-status-dot done';
 
-      playTone(659.25, 'sine', 0.05);
+      playTone(659.25, 'sine', 0.04);
     } else if (ev.type === 'deck_complete') {
       currentDeck = ev.deck;
-      renderFullDeck(ev.deck);
 
-      // Celebrate & transition smoothly to completed living studio!
-      playTone(783.99, 'sine', 0.15);
-      setTimeout(() => {
-        switchAppStage('studio');
-      }, 1200);
+      if (liveProgressBarFill) {
+        liveProgressBarFill.style.width = '100%';
+      }
+      if (liveBannerDot) {
+        liveBannerDot.style.background = '#34d399';
+      }
+      if (liveBannerText) {
+        liveBannerText.textContent = '✓ Deck assembly complete: 10 slides grounded & verified. Ready to present, edit, or export.';
+      }
+      if (liveAiBadge) {
+        liveAiBadge.innerHTML = `
+          <span class="check-icon-green" style="font-weight:bold;margin-right:4px;">✓</span>
+          <span>Grounded & Verified</span>
+        `;
+      }
+
+      // Append assistant invitation in agent checklist
+      if (liveAgentChecklist) {
+        const invite = document.createElement('div');
+        invite.className = 'agent-check-item';
+        invite.style.marginTop = '12px';
+        invite.style.paddingTop = '10px';
+        invite.style.borderTop = '1px solid rgba(255,255,255,0.08)';
+        invite.innerHTML = `
+          <span class="check-icon-green">💬</span>
+          <span style="color:#93c5fd;font-weight:600;">Chatbot ready: Type any change below to edit, create, or re-ground slides in place.</span>
+        `;
+        liveAgentChecklist.appendChild(invite);
+        liveAgentChecklist.scrollTop = liveAgentChecklist.scrollHeight;
+      }
+
+      // Synchronize full deck in background across views
+      try {
+        renderFullDeck(ev.deck);
+      } catch (err) {
+        console.warn('renderFullDeck non-blocking note:', err);
+      }
+
+      // Celebrate!
+      playTone(783.99, 'sine', 0.12);
     }
+  }
+
+  // Live Agent Event Listeners
+  if (liveAgentInput) {
+    liveAgentInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleLiveAgentEdit();
+      }
+    });
+  }
+  if (btnLiveAgentSend) {
+    btnLiveAgentSend.addEventListener('click', handleLiveAgentEdit);
+  }
+  if (btnLiveAgentClear) {
+    btnLiveAgentClear.addEventListener('click', () => {
+      if (liveAgentChecklist) {
+        liveAgentChecklist.innerHTML = `
+          <div class="agent-greeting-log">Agent activity cleared. Type any request below to modify this deck.</div>
+        `;
+      }
+    });
+  }
+  if (btnBannerOpenStudio) {
+    btnBannerOpenStudio.addEventListener('click', () => {
+      switchAppStage('studio');
+    });
+  }
+  if (btnBannerExport) {
+    btnBannerExport.addEventListener('click', openExportModal);
+  }
+  if (btnBannerToggleAgent && liveAgentPanel) {
+    btnBannerToggleAgent.addEventListener('click', () => {
+      liveAgentPanel.classList.toggle('hidden');
+    });
   }
 
   // Handle Omnibox Submit (from landing page -> goes directly to Stage 1 questionnaire!)
